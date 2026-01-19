@@ -34,5 +34,125 @@
         "phonetic": "/juːˈbɪk.wɪ.təs/",
         "definition": "adj. 无处不在的",
         "example": "Smartphones are ubiquitous now."
+    },
+    {
+        "word": "Alleviate",
+        "phonetic": "/əˈliː.vi.eɪt/",
+        "definition": "v. 减轻，缓解",
+        "example": "Measures were taken to alleviate the traffic congestion. (采取了措施来缓解交通拥堵。)"
+    },
+    {
+        "word": "Ambiguous",
+        "phonetic": "/æmˈbɪɡ.ju.əs/",
+        "definition": "adj. 模棱两可的，含糊不清的",
+        "example": "The instructions were too ambiguous to follow. (这些指示太模棱两可，无法遵循。)"
+    },
+    {
+        "word": "Coherent",
+        "phonetic": "/kəʊˈhɪə.rənt/",
+        "definition": "adj. 连贯的，条理清晰的",
+        "example": "Candidates need to present a coherent argument in the essay. (考生需要在文章中提出连贯的论点。)"
+    },
+    {
+        "word": "Deteriorate",
+        "phonetic": "/dɪˈtɪə.ri.ə.reɪt/",
+        "definition": "v. 恶化，变坏",
+        "example": "Air quality has deteriorated rapidly in the city. (城市的空气质量迅速恶化了。)"
+    },
+    {
+        "word": "Discrepancy",
+        "phonetic": "/dɪˈskrep.ən.si/",
+        "definition": "n. 差异，不一致",
+        "example": "There is a slight discrepancy between the two reports. (这两份报告之间存在细微的差异。)"
+    },
+    {
+    "word": "Fluctuate",
+    "phonetic": "/ˈflʌk.tʃu.eɪt/",
+    "definition": "v. 波动，起伏不定",
+    "example": "Vegetable prices fluctuate according to the season. (蔬菜价格随季节波动。)"
+    },
+    {
+    "word": "Hierarchy",
+    "phonetic": "/ˈhaɪə.rɑː.ki/",
+    "definition": "n. 等级制度，阶层",
+    "example": "There is a strict hierarchy within the company. (公司内部有严格的等级制度。)"
+    },
+    {
+    "word": "Implement",
+    "phonetic": "/ˈɪm.plɪ.ment/",
+    "definition": "v. 实施，执行",
+    "example": "The new policy will be implemented next month. (新政策将于下个月实施。)"
+    },
+    {
+    "word": "Incentive",
+    "phonetic": "/ɪnˈsen.tɪv/",
+	"definition": "n. 激励，刺激",
+	"example": "Bonus payments provide an incentive to work harder. (奖金提供了更加努力工作的动力。)"
+    },
+    {
+    "word": "Inevitable",
+    "phonetic": "/ɪˈnev.ɪ.tə.bəl/",
+    "definition": "adj. 不可避免的，必然发生的",
+    "example": "Change is inevitable in a growing organization. (在一个成长中的组织里，变革是不可避免的。)"
+    },
+    {
+    "word": "Mechanism",
+    "phonetic": "/ˈmek.ə.nɪ.zəm/",
+    "definition": "n. 机制，原理",
+    "example": "The exact mechanism of this disease is unknown. (这种疾病的确切发病机制尚不清楚。)"
+    },
+    {
+    "word": "Phenomenon",
+    "phonetic": "/fəˈnɒm.ɪ.nən/",
+    "definition": "n. 现象",
+    "example": "Globalization is a phenomenon of the 21st century. (全球化是21世纪的一种现象。)"
+    },
+    {
+    "word": "Prevalent",
+    "phonetic": "/ˈprev.əl.ənt/",
+    "definition": "adj. 流行的，普遍的",
+    "example": "These diseases are more prevalent among young children. (这些疾病在幼儿中更为普遍。)"
+    },
+    {
+    "word": "Proponent",
+    "phonetic": "/prəˈpəʊ.nənt/",
+    "definition": "n. 支持者，拥护者",
+    "example": "He is a leading proponent of renewable energy. (他是可再生能源的主要支持者。) "
+    },
+    {
+    "word": "Scrutinize",
+    "phonetic": "/ˈskruː.tɪ.naɪz/",
+    "definition": "v. 仔细检查，详审",
+    "example": "All evidence was scrutinized by the police. (所有证据都经过了警方的仔细审查。)"
+    },
+    {
+    "word": "Subsequent",
+    "phonetic": "/ˈsʌb.sɪ.kwənt/",
+    "definition": "adj. 随后的，后来的",
+    "example": "The theory was developed subsequent to the earthquake. (这个理论是在地震之后发展起来的。)"
+    },
+    {
+    "word": "Sustainable",
+    "phonetic": "/səˈsteɪ.nə.bəl/",
+    "definition": "adj. 可持续的",
+    "example": "We need to find a sustainable solution to this problem. (我们需要为这个问题找到一个可持续的解决方案。)"
+    },
+    {
+    "word": "Tangible",
+    "phonetic": "/ˈtæn.dʒə.bəl/",
+    "definition": "adj. 有形的，实质的",
+    "example": "We need tangible evidence before taking action. (在采取行动之前，我们需要实质性的证据。)"
+    },
+    {
+    "word": "Viable",
+    "phonetic": "/ˈvaɪ.ə.bəl/",
+    "definition": "adj. 可行的，望能成功的",
+    "example": "Is solar energy a viable alternative to oil? (太阳能是石油的可行替代品吗？)"
+    },
+    {
+    "word": "Vulnerable",
+    "phonetic": "/ˈvʌl.nər.ə.bəl/",
+    "definition": "adj. 脆弱的，易受伤害的",
+    "example": "Old people are particularly vulnerable to the flu. (老年人特别容易感染流感。)"
     }
 ]
