@@ -1,15 +1,10 @@
-// app.js - 完整修复版
+// app.js - 进阶版 (支持外部数据加载)
 
-// === 1. 数据准备 ===
-const vocabList = [
-    { word: "Ephemeral", phonetic: "/ɪˈfem.ər.əl/", definition: "adj. 短暂的", example: "Fashion is ephemeral." },
-    { word: "Serendipity", phonetic: "/ˌser.ənˈdɪp.ə.ti/", definition: "n. 机缘巧合", example: "Finding the cat was serendipity." },
-    { word: "Resilient", phonetic: "/rɪˈzɪl.jənt/", definition: "adj. 有弹性的", example: "Cats are resilient." },
-    { word: "Meticulous", phonetic: "/məˈtɪk.jə.ləs/", definition: "adj. 一丝不苟的", example: "Meticulous cleaning." }
-];
+// === 1. 变量准备 ===
+let vocabList = []; // 现在它是空的，等会儿去取数据
+let currentIndex = 0;
 
-// === 2. 安全获取元素 (加了防报错检查) ===
-// 只有当HTML里真的有这些东西时，JS才会去操作，防止报错
+// === 2. 获取页面元素 ===
 const wordEl = document.querySelector('.word');
 const phoneticEl = document.querySelector('.phonetic');
 const defEl = document.querySelector('.definition');
@@ -18,23 +13,52 @@ const exampleEl = defEl ? defEl.querySelector('.example') : null;
 
 const btnReveal = document.getElementById('btn-reveal');
 const btnNext = document.getElementById('btn-next');
-const btnAudio = document.getElementById('btn-audio'); // 朗读按钮
-const btnSave = document.getElementById('btn-save');   // 保存按钮
+const btnAudio = document.getElementById('btn-audio');
+const btnSave = document.getElementById('btn-save');
 
 // 生词本相关
-// 注意：如果导航栏结构不对，这里可能会抓不到，所以要小心
-const notebookLink = document.querySelector('nav ul li:nth-child(3) a'); 
+const notebookLink = document.querySelector('nav ul li:nth-child(3) a');
 const cardContainer = document.querySelector('.card-container');
 const notebookView = document.getElementById('notebook-view');
 const notebookListEl = document.getElementById('notebook-list');
 const btnBack = document.getElementById('btn-back');
 
-let currentIndex = 0;
 
-// === 3. 核心功能函数 ===
+// === 3. 核心功能：初始化与数据获取 ===
+// 这是一个异步函数 (Async)，因为它要去服务器拿数据，需要等待
+async function initApp() {
+    try {
+        console.log("开始加载单词数据...");
+        // fetch 就像是派出一只猫去抓取 'words.json' 文件
+        const response = await fetch('words.json'); 
+        
+        // 检查是不是成功拿到了
+        if (!response.ok) throw new Error('网络响应异常');
+
+        // 把拿到的文本转换成 JS 能懂的数组
+        vocabList = await response.json();
+        
+        console.log(`成功加载了 ${vocabList.length} 个单词！`);
+        
+        // 数据到了，开始显示第一个词
+        loadWord(currentIndex);
+
+    } catch (error) {
+        console.error('加载失败:', error);
+        wordEl.textContent = "加载失败 😿";
+        defTextEl.textContent = "请检查 words.json 文件是否存在";
+        // 如果你在本地直接打开 html，可能会触发这个错误，这是正常的安全限制
+        // 请上传到 GitHub Pages 查看效果
+    }
+}
+
+
+// === 4. 常规功能函数 ===
 
 function loadWord(index) {
-    if (!wordEl) return; // 安全检查
+    // 保护措施：如果数据还没回来，就什么都不做
+    if (vocabList.length === 0) return;
+
     const data = vocabList[index];
     wordEl.textContent = data.word;
     phoneticEl.textContent = data.phonetic;
@@ -44,22 +68,21 @@ function loadWord(index) {
 }
 
 function speakWord() {
-    // 检查浏览器是否支持发音
     if ('speechSynthesis' in window) {
         const word = wordEl.textContent;
         const utterance = new SpeechSynthesisUtterance(word);
-        utterance.lang = 'en-US'; // 美式发音
+        utterance.lang = 'en-US'; 
         window.speechSynthesis.speak(utterance);
     } else {
-        alert("你的浏览器不支持发音功能喵~ 😿");
+        alert("浏览器不支持发音 😿");
     }
 }
 
 function saveToNotebook() {
+    if (vocabList.length === 0) return;
     const currentWord = vocabList[currentIndex];
     let myNotebook = JSON.parse(localStorage.getItem('myCatNotebook')) || [];
     
-    // 查重
     const exists = myNotebook.some(item => item.word === currentWord.word);
     
     if (!exists) {
@@ -72,7 +95,6 @@ function saveToNotebook() {
 }
 
 function showNotebook() {
-    if (!cardContainer || !notebookView) return;
     cardContainer.style.display = 'none';
     notebookView.classList.remove('hidden');
     
@@ -84,42 +106,30 @@ function showNotebook() {
     } else {
         myNotebook.forEach(item => {
             const li = document.createElement('li');
-            // 这里加个删除功能的小按钮（进阶）
-            li.innerHTML = `<strong>${item.word}</strong> - ${item.definition}`;
+            li.innerHTML = `<strong>${item.word}</strong> <br> <span style="font-size:0.9em;color:#666;">${item.definition}</span>`;
             notebookListEl.appendChild(li);
         });
     }
 }
 
 function hideNotebook() {
-    if (!cardContainer || !notebookView) return;
     cardContainer.style.display = 'flex';
     notebookView.classList.add('hidden');
 }
 
-// === 4. 事件绑定 (确保元素存在才绑定) ===
 
+// === 5. 事件绑定 ===
 if (btnReveal) btnReveal.addEventListener('click', () => defEl.classList.remove('hidden'));
-
 if (btnNext) btnNext.addEventListener('click', () => {
     currentIndex++;
     if (currentIndex >= vocabList.length) currentIndex = 0;
     loadWord(currentIndex);
 });
-
 if (btnAudio) btnAudio.addEventListener('click', speakWord);
 if (btnSave) btnSave.addEventListener('click', saveToNotebook);
-
-if (notebookLink) {
-    notebookLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        showNotebook();
-    });
-}
-
+if (notebookLink) notebookLink.addEventListener('click', (e) => { e.preventDefault(); showNotebook(); });
 if (btnBack) btnBack.addEventListener('click', hideNotebook);
 
-// === 5. 启动 ===
-loadWord(currentIndex);
-
-console.log("App.js 已成功加载喵！"); // 这句话会在控制台显示
+// === 6. 启动程序 ===
+// 这里不再直接调用 loadWord，而是调用 initApp 去取数据
+initApp();
