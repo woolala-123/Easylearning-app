@@ -1,0 +1,38 @@
+[
+    {
+        "word": "Ephemeral",
+        "phonetic": "/ɪˈfem.ər.əl/",
+        "definition": "adj. 短暂的，转瞬即逝的",
+        "example": "Fashion is ephemeral."
+    },
+    {
+        "word": "Serendipity",
+        "phonetic": "/ˌser.ənˈdɪp.ə.ti/",
+        "definition": "n. 机缘巧合，意外发现珍宝的运气",
+        "example": "Finding the cat was serendipity."
+    },
+    {
+        "word": "Resilient",
+        "phonetic": "/rɪˈzɪl.jənt/",
+        "definition": "adj. 有弹性的；有恢复力的",
+        "example": "Cats are resilient."
+    },
+    {
+        "word": "Meticulous",
+        "phonetic": "/məˈtɪk.jə.ləs/",
+        "definition": "adj. 一丝不苟的，非常仔细的",
+        "example": "Meticulous cleaning."
+    },
+    {
+        "word": "Nostalgia",
+        "phonetic": "/nɒˈstæl.dʒə/",
+        "definition": "n. 怀旧，念旧",
+        "example": "Photos bring back nostalgia."
+    },
+    {
+        "word": "Ubiquitous",
+        "phonetic": "/juːˈbɪk.wɪ.təs/",
+        "definition": "adj. 无处不在的",
+        "example": "Smartphones are ubiquitous now."
+    }
+]
