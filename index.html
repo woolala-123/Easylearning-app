@@ -13,7 +13,7 @@
         <nav>
             <ul>
                 <li><a href="#">今日打卡</a></li>
-                <li><a href="#">单词库</a></li>
+                <li><a href="#" id="nav-library">单词库 (Library)</a></li>
                 <li><a href="#">我的生词本</a></li>
             </ul>
         </nav>
@@ -28,17 +28,14 @@
         <div class="card-container">
             <div class="flashcard" id="flashcard">
                 <div class="card-content">
-                    
                     <div class="word-row">
-                        <div class="word">Ephemeral</div>
+                        <div class="word">Loading...</div>
                         <button id="btn-audio" class="icon-btn" title="点击朗读">🔊</button>
                     </div>
-
-                    <div class="phonetic">/ɪˈfem.ər.əl/</div>
-                    
+                    <div class="phonetic">...</div>
                     <div class="definition hidden">
-                        <p>adj. 短暂的，转瞬即逝的</p>
-                        <p class="example">"Fashion is ephemeral." (时尚是短暂的。)</p>
+                        <p>...</p>
+                        <p class="example">...</p>
                     </div>
                 </div>
             </div>
@@ -52,9 +49,17 @@
 
         <section id="notebook-view" class="hidden">
             <h3>我的生词本 (My Notebook)</h3>
-            <ul id="notebook-list">
-                </ul>
+            <ul id="notebook-list"></ul>
             <button id="btn-back" class="secondary-btn">返回背单词</button>
+        </section>
+
+        <section id="library-view" class="hidden">
+            <h2>📚 单词库总览 (Vocabulary Library)</h2>
+            <div class="folder-structure">
+                <h3 class="folder-title">📂 IELTS 8000 核心词汇 <span id="lib-count" style="font-size:0.8em; color:#888;"></span></h3>
+                <div id="full-vocab-list" class="vocab-grid"></div>
+            </div>
+            <button id="btn-back-from-lib" class="secondary-btn">返回学习模式</button>
         </section>
 
     </main>
