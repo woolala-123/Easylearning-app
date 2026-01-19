@@ -12,20 +12,20 @@
         <div class="logo">🐱 IELTS Booster</div>
         <nav>
             <ul>
-                <li><a href="#">今日打卡</a></li>
-                <li><a href="#" id="nav-library">单词库 (Library)</a></li>
+                <li><a href="#" id="nav-typing">⌨️ 拼写练习</a></li>
+                <li><a href="#" id="nav-library">单词库</a></li>
                 <li><a href="#">我的生词本</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
-        <section class="status-bar">
-            <h2>Hi, 这里的目标是 8000 词！</h2>
-            <p>今天也要加油喵~ 🐾</p>
-        </section>
+        <div class="card-container" id="card-view">
+            <section class="status-bar">
+                <h2>Hi, 这里的目标是 8000 词！</h2>
+                <p>今天也要加油喵~ 🐾</p>
+            </section>
 
-        <div class="card-container">
             <div class="flashcard" id="flashcard">
                 <div class="card-content">
                     <div class="word-row">
@@ -50,4 +50,73 @@
         <section id="notebook-view" class="hidden">
             <h3>我的生词本 (My Notebook)</h3>
             <ul id="notebook-list"></ul>
-            <button id="btn-back" class="secondary-btn">返回背单词</button
+            <button id="btn-back" class="secondary-btn">返回学习模式</button>
+        </section>
+
+        <section id="library-view" class="hidden">
+            <h2>📚 单词库总览 (Vocabulary Library)</h2>
+            <div class="folder-structure">
+                <h3 class="folder-title">📂 IELTS 8000 核心词汇 <span id="lib-count" style="font-size:0.8em; color:#888;"></span></h3>
+                <div id="full-vocab-list" class="vocab-grid"></div>
+            </div>
+            <button id="btn-back-from-lib" class="secondary-btn">返回学习模式</button>
+        </section>
+
+        <section id="typing-view" class="hidden">
+            <div class="typing-header">
+                <div class="stat-box">
+                    <span class="stat-label">速度</span>
+                    <span class="stat-value" id="typing-wpm">0 WPM</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-label">进度</span>
+                    <span class="stat-value" id="typing-progress">0/0</span>
+                </div>
+            </div>
+
+            <div class="typing-area">
+                <div id="target-word-display" class="typing-text">
+                    </div>
+                
+                <div id="typing-translation" class="typing-subtext"></div>
+            </div>
+
+            <div class="typing-tips">
+                <p>直接按键盘输入 • 错误无法输入 • Enter/Space 切换</p>
+            </div>
+            
+            <button id="btn-back-from-typing" class="secondary-btn">退出练习</button>
+        </section>
+
+    </main>
+
+    <div id="modal-overlay" class="hidden">
+        <div class="modal-content">
+            <button id="btn-close-modal">×</button>
+            <div class="modal-header">
+                <h2 id="modal-word">Word</h2>
+                <span id="modal-phonetic">/phonetic/</span>
+            </div>
+            <div class="modal-body">
+                <div class="modal-row">
+                    <span class="tag">定义</span>
+                    <p id="modal-def">...</p>
+                </div>
+                <div class="modal-row">
+                    <span class="tag">例句</span>
+                    <p id="modal-example">...</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btn-modal-audio" class="icon-btn" style="font-size: 1.2rem; border: 1px solid #eee; border-radius: 20px; padding: 5px 15px;">🔊 点击朗读</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Designed by Senior Content Marketer</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
