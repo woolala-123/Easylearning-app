@@ -1,7 +1,5 @@
-// app.js - 进阶版 (支持外部数据加载)
-
 // === 1. 变量准备 ===
-let vocabList = []; // 现在它是空的，等会儿去取数据
+let vocabList = []; 
 let currentIndex = 0;
 
 // === 2. 获取页面元素 ===
@@ -11,31 +9,37 @@ const defEl = document.querySelector('.definition');
 const defTextEl = defEl ? defEl.querySelector('p') : null;
 const exampleEl = defEl ? defEl.querySelector('.example') : null;
 
+// 按钮
 const btnReveal = document.getElementById('btn-reveal');
 const btnNext = document.getElementById('btn-next');
 const btnAudio = document.getElementById('btn-audio');
 const btnSave = document.getElementById('btn-save');
 
-// 生词本相关
-const notebookLink = document.querySelector('nav ul li:nth-child(3) a');
+// 视图容器
 const cardContainer = document.querySelector('.card-container');
 const notebookView = document.getElementById('notebook-view');
+const libraryView = document.getElementById('library-view'); // 新增
+
+// 导航与列表元素
+const notebookLink = document.querySelector('nav ul li:nth-child(3) a');
 const notebookListEl = document.getElementById('notebook-list');
 const btnBack = document.getElementById('btn-back');
 
+// 单词库相关元素 (新增)
+const navLibrary = document.getElementById('nav-library');
+const fullVocabListEl = document.getElementById('full-vocab-list');
+const libCountEl = document.getElementById('lib-count');
+const btnBackFromLib = document.getElementById('btn-back-from-lib');
+
 
 // === 3. 核心功能：初始化与数据获取 ===
-// 这是一个异步函数 (Async)，因为它要去服务器拿数据，需要等待
 async function initApp() {
     try {
         console.log("开始加载单词数据...");
-        // fetch 就像是派出一只猫去抓取 'words.json' 文件
         const response = await fetch('words.json'); 
         
-        // 检查是不是成功拿到了
         if (!response.ok) throw new Error('网络响应异常');
 
-        // 把拿到的文本转换成 JS 能懂的数组
         vocabList = await response.json();
         
         console.log(`成功加载了 ${vocabList.length} 个单词！`);
@@ -45,18 +49,16 @@ async function initApp() {
 
     } catch (error) {
         console.error('加载失败:', error);
-        wordEl.textContent = "加载失败 😿";
-        defTextEl.textContent = "请检查 words.json 文件是否存在";
-        // 如果你在本地直接打开 html，可能会触发这个错误，这是正常的安全限制
-        // 请上传到 GitHub Pages 查看效果
+        if(wordEl) wordEl.textContent = "加载失败 😿";
+        if(defTextEl) defTextEl.textContent = "请检查 words.json 是否存在，并确保已上传到 GitHub Pages";
     }
 }
 
 
-// === 4. 常规功能函数 ===
+// === 4. 功能函数 ===
 
+// A. 加载单个卡片
 function loadWord(index) {
-    // 保护措施：如果数据还没回来，就什么都不做
     if (vocabList.length === 0) return;
 
     const data = vocabList[index];
@@ -67,6 +69,7 @@ function loadWord(index) {
     defEl.classList.add('hidden'); 
 }
 
+// B. 发音
 function speakWord() {
     if ('speechSynthesis' in window) {
         const word = wordEl.textContent;
@@ -78,6 +81,7 @@ function speakWord() {
     }
 }
 
+// C. 保存生词
 function saveToNotebook() {
     if (vocabList.length === 0) return;
     const currentWord = vocabList[currentIndex];
@@ -94,8 +98,13 @@ function saveToNotebook() {
     }
 }
 
+// D. 显示生词本
 function showNotebook() {
+    // 隐藏其他视图
     cardContainer.style.display = 'none';
+    if(libraryView) libraryView.classList.add('hidden');
+    
+    // 显示生词本
     notebookView.classList.remove('hidden');
     
     const myNotebook = JSON.parse(localStorage.getItem('myCatNotebook')) || [];
@@ -112,24 +121,77 @@ function showNotebook() {
     }
 }
 
+// E. 隐藏生词本（返回）
 function hideNotebook() {
-    cardContainer.style.display = 'flex';
     notebookView.classList.add('hidden');
+    cardContainer.style.display = 'flex';
+}
+
+// F. 显示完整单词库 (新增)
+function showLibrary() {
+    // 隐藏其他视图
+    cardContainer.style.display = 'none';
+    notebookView.classList.add('hidden');
+    
+    // 显示单词库
+    libraryView.classList.remove('hidden');
+
+    // 更新总数
+    libCountEl.textContent = `(${vocabList.length} words)`;
+
+    // 清空列表
+    fullVocabListEl.innerHTML = '';
+
+    // 生成卡片
+    vocabList.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'vocab-card-small';
+        div.innerHTML = `
+            <strong>${item.word}</strong>
+            <span>${item.definition}</span>
+        `;
+        fullVocabListEl.appendChild(div);
+    });
+}
+
+// G. 隐藏单词库（返回）(新增)
+function hideLibrary() {
+    libraryView.classList.add('hidden');
+    cardContainer.style.display = 'flex';
 }
 
 
-// === 5. 事件绑定 ===
+// === 5. 事件绑定 (加了安全检查) ===
 if (btnReveal) btnReveal.addEventListener('click', () => defEl.classList.remove('hidden'));
+
 if (btnNext) btnNext.addEventListener('click', () => {
     currentIndex++;
     if (currentIndex >= vocabList.length) currentIndex = 0;
     loadWord(currentIndex);
 });
+
 if (btnAudio) btnAudio.addEventListener('click', speakWord);
 if (btnSave) btnSave.addEventListener('click', saveToNotebook);
-if (notebookLink) notebookLink.addEventListener('click', (e) => { e.preventDefault(); showNotebook(); });
+
+if (notebookLink) {
+    notebookLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        showNotebook();
+    });
+}
 if (btnBack) btnBack.addEventListener('click', hideNotebook);
 
+// 新增绑定的事件
+if (navLibrary) {
+    navLibrary.addEventListener('click', (e) => {
+        e.preventDefault();
+        showLibrary();
+    });
+}
+if (btnBackFromLib) {
+    btnBackFromLib.addEventListener('click', hideLibrary);
+}
+
+
 // === 6. 启动程序 ===
-// 这里不再直接调用 loadWord，而是调用 initApp 去取数据
 initApp();
