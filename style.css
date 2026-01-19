@@ -1,24 +1,20 @@
-/* === 全局重置：先把浏览器默认的边距去掉 === */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+/* === 全局重置 === */
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* === 身体皮肤：设定背景色和字体 === */
+/* === 身体皮肤 === */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* 找一个看着舒服的字体 */
-    background-color: #fdf6e3; /* 暖暖的米黄色，像猫肚子一样柔软，适合阅读 */
-    color: #586e75; /* 深灰青色文字，比纯黑更护眼 */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #fdf6e3;
+    color: #586e75;
     line-height: 1.6;
 }
 
 /* === 顶部导航栏 === */
 header {
-    background-color: #ffcc80; /* 橘猫色！ */
-    padding: 1rem 2rem; /* 给里面留点呼吸空间 */
-    display: flex; /* 让Logo和导航横向排列 */
-    justify-content: space-between; /* 一个在左，一个在右 */
+    background-color: #ffcc80;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
@@ -31,33 +27,29 @@ header {
 }
 
 nav ul {
-    list-style: none; /* 去掉列表前面的小圆点 */
+    list-style: none;
     display: flex;
-    gap: 20px; /* 菜单项之间的间距 */
+    gap: 20px;
 }
 
 nav a {
-    text-decoration: none; /* 去掉下划线 */
+    text-decoration: none;
     color: #fff;
     font-weight: bold;
     transition: color 0.3s;
 }
 
-nav a:hover {
-    color: #8d6e63; /* 鼠标放上去变咖啡色 */
-}
+nav a:hover { color: #8d6e63; }
 
 /* === 主体内容区 === */
 main {
-    max-width: 800px; /* 不要太宽，阅读体验更好 */
-    margin: 2rem auto; /* 上下留白，左右自动居中 */
+    max-width: 800px;
+    margin: 2rem auto;
     padding: 0 20px;
     text-align: center;
 }
 
-.status-bar {
-    margin-bottom: 30px;
-}
+.status-bar { margin-bottom: 30px; }
 
 /* === 核心：单词卡片设计 === */
 .card-container {
@@ -71,30 +63,35 @@ main {
     background-color: #fff;
     width: 100%;
     max-width: 500px;
-    height: 300px; /* 固定高度，显得整齐 */
-    border-radius: 20px; /* 大圆角，手感很好的样子 */
-    box-shadow: 0 10px 25px rgba(0,0,0,0.05); /* 柔和的阴影，像卡片浮起来了 */
-    
-    /* 让文字在卡片里垂直居中 */
+    height: 300px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
     display: flex;
     justify-content: center;
     align-items: center;
-    
-    /* 加一个边框，像拍立得相纸 */
     border: 4px solid #fff;
-    transition: transform 0.3s ease; /* 动效准备 */
+    transition: transform 0.3s ease;
 }
 
 .flashcard:hover {
-    transform: translateY(-5px); /* 鼠标放上去稍微上浮一点 */
+    transform: translateY(-5px);
     border-color: #ffe0b2;
+}
+
+.card-content { width: 90%; }
+
+.word-row {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* 让单词和喇叭整体居中 */
+    gap: 10px;
+    margin-bottom: 10px;
 }
 
 .word {
     font-size: 2.5rem;
-    color: #d84315; /* 重点单词用深橘红色 */
+    color: #d84315;
     font-weight: bold;
-    margin-bottom: 10px;
 }
 
 .phonetic {
@@ -107,13 +104,10 @@ main {
 .definition {
     margin-top: 15px;
     padding-top: 15px;
-    border-top: 2px dashed #eee; /* 虚线分割 */
+    border-top: 2px dashed #eee;
 }
 
-/* 这是一个工具类，用来隐藏东西 */
-.hidden {
-    display: none;
-}
+.hidden { display: none; }
 
 .example {
     margin-top: 8px;
@@ -122,16 +116,13 @@ main {
 }
 
 /* === 按钮区域 === */
-.controls {
-    display: flex;
-    gap: 15px;
-}
+.controls { display: flex; gap: 15px; }
 
 button {
     padding: 12px 24px;
     font-size: 1rem;
     border: none;
-    border-radius: 50px; /* 胶囊形状的按钮 */
+    border-radius: 50px;
     cursor: pointer;
     font-family: inherit;
     transition: all 0.2s;
@@ -144,36 +135,16 @@ button {
     color: #ff9800;
 }
 
-#btn-next {
-    background-color: #ff9800;
-    color: white;
-}
+#btn-next { background-color: #ff9800; color: white; }
 
 button:hover {
-    transform: scale(1.05); /* 点击欲望！变大一点点 */
+    transform: scale(1.05);
     box-shadow: 0 6px 8px rgba(0,0,0,0.15);
 }
 
-button:active {
-    transform: scale(0.98); /* 按下去缩一点点 */
-}
+button:active { transform: scale(0.98); }
 
-/* === 底部 === */
-footer {
-    text-align: center;
-    margin-top: 50px;
-    font-size: 0.8rem;
-    color: #bbb;
-}
-/* === 新增：单词行的布局 === */
-.word-row {
-    display: flex;
-    align-items: center;
-    gap: 10px; /* 单词和喇叭的间距 */
-    margin-bottom: 10px;
-}
-
-/* === 新增：图标按钮（小喇叭） === */
+/* === 小喇叭图标 === */
 .icon-btn {
     background: none;
     border: none;
@@ -182,7 +153,7 @@ footer {
     padding: 5px;
     border-radius: 50%;
     transition: background 0.2s;
-    box-shadow: none; /* 去掉大按钮的阴影 */
+    box-shadow: none;
 }
 
 .icon-btn:hover {
@@ -190,9 +161,9 @@ footer {
     transform: scale(1.1);
 }
 
-/* === 新增：生词本视图样式 === */
-#notebook-view {
-    background: white;
+/* === 生词本 & 单词库 通用容器样式 === */
+#notebook-view, #library-view {
+    background: #fdfdfd;
     padding: 20px;
     border-radius: 15px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.05);
@@ -217,4 +188,55 @@ footer {
     color: white;
     font-size: 0.9rem;
     padding: 8px 16px;
+    margin-top: 10px;
+}
+
+/* === 单词库 (Library) 专属样式 === */
+.folder-title {
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #ffcc80;
+    color: #444;
+}
+
+.vocab-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.vocab-card-small {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 5px solid #ffcc80;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: transform 0.2s;
+}
+
+.vocab-card-small:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+
+.vocab-card-small strong {
+    display: block;
+    font-size: 1.2rem;
+    color: #d84315;
+    margin-bottom: 5px;
+}
+
+.vocab-card-small span {
+    font-size: 0.9rem;
+    color: #666;
+    display: block; /* 强制换行 */
+}
+
+/* === 底部 === */
+footer {
+    text-align: center;
+    margin-top: 50px;
+    font-size: 0.8rem;
+    color: #bbb;
 }
