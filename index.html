@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>喵喵雅思单词本 (IELTS Cat Vocab)</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">🐱 IELTS Booster</div>
+        <nav>
+            <ul>
+                <li><a href="#">今日打卡</a></li>
+                <li><a href="#">单词库</a></li>
+                <li><a href="#">我的生词本</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="status-bar">
+            <h2>Hi, 这里的目标是 8000 词！</h2>
+            <p>今天也要加油喵~ 🐾</p>
+        </section>
+
+        <div class="card-container">
+            <div class="flashcard" id="flashcard">
+                <div class="card-content">
+                    
+                    <div class="word-row">
+                        <div class="word">Ephemeral</div>
+                        <button id="btn-audio" class="icon-btn" title="点击朗读">🔊</button>
+                    </div>
+
+                    <div class="phonetic">/ɪˈfem.ər.əl/</div>
+                    
+                    <div class="definition hidden">
+                        <p>adj. 短暂的，转瞬即逝的</p>
+                        <p class="example">"Fashion is ephemeral." (时尚是短暂的。)</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button id="btn-reveal">查看释义 🐱</button>
+                <button id="btn-save">加入生词本 📕</button>
+                <button id="btn-next">下一个 ➡️</button>
+            </div>
+        </div>
+
+        <section id="notebook-view" class="hidden">
+            <h3>我的生词本 (My Notebook)</h3>
+            <ul id="notebook-list">
+                </ul>
+            <button id="btn-back" class="secondary-btn">返回背单词</button>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Designed by Senior Content Marketer</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
