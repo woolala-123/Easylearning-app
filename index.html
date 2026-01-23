@@ -14,7 +14,7 @@
             <ul>
                 <li><a href="#" id="nav-typing">⌨️ 拼写练习</a></li>
                 <li><a href="#" id="nav-library">单词库</a></li>
-                <li><a href="#">我的生词本</a></li>
+                <li><a href="#" id="nav-notebook">生词本</a></li>
             </ul>
         </nav>
     </header>
@@ -48,13 +48,18 @@
         </div>
 
         <section id="notebook-view" class="hidden">
-            <h3>我的生词本 (My Notebook)</h3>
+            <h3>📕 我的生词本 (My Notebook)</h3>
             <ul id="notebook-list"></ul>
             <button id="btn-back" class="secondary-btn">返回学习模式</button>
         </section>
 
         <section id="library-view" class="hidden">
-            <h2>📚 单词库总览 (Vocabulary Library)</h2>
+            <h2>📚 单词库总览 (Library)</h2>
+            
+            <div class="search-bar-container">
+                <input type="text" id="search-input" placeholder="🔍 搜索单词 / Search..." autocomplete="off">
+            </div>
+
             <div class="folder-structure">
                 <h3 class="folder-title">📂 IELTS 8000 核心词汇 <span id="lib-count" style="font-size:0.8em; color:#888;"></span></h3>
                 <div id="full-vocab-list" class="vocab-grid"></div>
@@ -63,6 +68,8 @@
         </section>
 
         <section id="typing-view" class="hidden">
+            <input type="text" id="mobile-input" style="opacity: 0; position: absolute; top: -1000px;">
+
             <div class="typing-header">
                 <div class="stat-box">
                     <span class="stat-label">速度</span>
@@ -75,14 +82,12 @@
             </div>
 
             <div class="typing-area">
-                <div id="target-word-display" class="typing-text">
-                    </div>
-                
+                <div id="target-word-display" class="typing-text"></div>
                 <div id="typing-translation" class="typing-subtext"></div>
             </div>
 
             <div class="typing-tips">
-                <p>直接按键盘输入 • 错误无法输入 • Enter/Space 切换</p>
+                <p>点击屏幕开始 • 错误无法输入 • 适配手机端</p>
             </div>
             
             <button id="btn-back-from-typing" class="secondary-btn">退出练习</button>
@@ -108,7 +113,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="btn-modal-audio" class="icon-btn" style="font-size: 1.2rem; border: 1px solid #eee; border-radius: 20px; padding: 5px 15px;">🔊 点击朗读</button>
+                <button id="btn-modal-audio" class="icon-btn" style="border: 1px solid #eee; border-radius: 20px; padding: 5px 15px;">🔊 点击朗读</button>
             </div>
         </div>
     </div>
