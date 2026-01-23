@@ -7,9 +7,9 @@ let currentIndex = 0;
 // 机械键盘敲击声
 const sfxClick = new Audio('sounds/public_sounds_click.wav');
 // 单词完成的提示音 (清脆的叮一声)
-const sfxSuccess = new Audio('https://public_sounds_correct.wav'); 
+const sfxSuccess = new Audio('sounds/public_sounds_correct.wav'); 
 // 错误音效 (低沉的嘟声)
-const sfxError = new Audio('public_sounds_beep.wav'); 
+const sfxError = new Audio('sounds/public_sounds_beep.wav'); 
 
 // 预加载，防止第一次打字延迟
 sfxClick.volume = 0.5; // 音量调小一点，不刺耳
@@ -324,4 +324,5 @@ function openModal(data) {
 }
 
 initApp();
+
 
