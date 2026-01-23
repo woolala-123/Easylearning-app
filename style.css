@@ -1,11 +1,5 @@
-/* =========================================
-   1. 全局重置 (Global Reset)
-   ========================================= */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+/* === 全局设置 === */
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -14,9 +8,7 @@ body {
     line-height: 1.6;
 }
 
-/* =========================================
-   2. 顶部导航栏 (Header & Nav)
-   ========================================= */
+/* === 导航栏 === */
 header {
     background-color: #ffcc80; /* 橘猫色 */
     padding: 1rem 2rem;
@@ -27,315 +19,106 @@ header {
 }
 
 .logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #fff;
+    font-size: 1.5rem; font-weight: bold; color: #fff;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
 }
 
-nav ul {
-    list-style: none;
-    display: flex;
-    gap: 20px;
-}
+nav ul { list-style: none; display: flex; gap: 20px; }
+nav a { text-decoration: none; color: #fff; font-weight: bold; transition: color 0.3s; }
+nav a:hover { color: #8d6e63; }
 
-nav a {
-    text-decoration: none;
-    color: #fff;
-    font-weight: bold;
-    transition: color 0.3s;
-}
+/* === 主体布局 === */
+main { max-width: 800px; margin: 2rem auto; padding: 0 20px; text-align: center; }
+.status-bar { margin-bottom: 30px; }
+.hidden { display: none !important; }
 
-nav a:hover {
-    color: #8d6e63;
-}
-
-/* =========================================
-   3. 主体容器 (Main Layout)
-   ========================================= */
-main {
-    max-width: 800px;
-    margin: 2rem auto;
-    padding: 0 20px;
-    text-align: center;
-}
-
-.status-bar {
-    margin-bottom: 30px;
-}
-
-/* =========================================
-   4. 卡片视图 (Card View)
-   ========================================= */
-.card-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-}
+/* === 卡片视图 === */
+.card-container { display: flex; flex-direction: column; align-items: center; gap: 20px; }
 
 .flashcard {
-    background-color: #fff;
-    width: 100%;
-    max-width: 500px;
-    height: 300px;
-    border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 4px solid #fff;
-    transition: transform 0.3s ease;
+    background-color: #fff; width: 100%; max-width: 500px; height: 300px;
+    border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    display: flex; justify-content: center; align-items: center;
+    border: 4px solid #fff; transition: transform 0.3s ease;
 }
+.flashcard:hover { transform: translateY(-5px); border-color: #ffe0b2; }
 
-.flashcard:hover {
-    transform: translateY(-5px);
-    border-color: #ffe0b2;
-}
+.card-content { width: 90%; }
+.word-row { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px; }
+.word { font-size: 2.5rem; color: #d84315; font-weight: bold; }
+.phonetic { font-size: 1.2rem; color: #999; font-style: italic; margin-bottom: 20px; }
+.definition { margin-top: 15px; padding-top: 15px; border-top: 2px dashed #eee; }
+.example { margin-top: 8px; color: #666; font-size: 0.9rem; }
 
-.card-content {
-    width: 90%;
-}
-
-.word-row {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 10px;
-}
-
-.word {
-    font-size: 2.5rem;
-    color: #d84315;
-    font-weight: bold;
-}
-
-.phonetic {
-    font-size: 1.2rem;
-    color: #999;
-    font-style: italic;
-    margin-bottom: 20px;
-}
-
-.definition {
-    margin-top: 15px;
-    padding-top: 15px;
-    border-top: 2px dashed #eee;
-}
-
-/* 工具类：隐藏元素 */
-.hidden {
-    display: none !important;
-}
-
-.example {
-    margin-top: 8px;
-    color: #666;
-    font-size: 0.9rem;
-}
-
-/* =========================================
-   5. 按钮样式 (Buttons)
-   ========================================= */
-.controls {
-    display: flex;
-    gap: 15px;
-}
-
+/* === 按钮通用 === */
+.controls { display: flex; gap: 15px; }
 button {
-    padding: 12px 24px;
-    font-size: 1rem;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    font-family: inherit;
-    transition: all 0.2s;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    padding: 12px 24px; font-size: 1rem; border: none; border-radius: 50px; cursor: pointer;
+    font-family: inherit; transition: all 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
+#btn-reveal { background-color: #fff; border: 2px solid #ffcc80; color: #ff9800; }
+#btn-next { background-color: #ff9800; color: white; }
+button:hover { transform: scale(1.05); }
+.secondary-btn { background-color: #9e9e9e; color: white; font-size: 0.9rem; padding: 8px 16px; margin-top: 10px; }
+.icon-btn { background: none; border: none; font-size: 1.5rem; padding: 5px; box-shadow: none; }
+.icon-btn:hover { background-color: #f0f0f0; border-radius: 50%; }
 
-#btn-reveal {
-    background-color: #fff;
-    border: 2px solid #ffcc80;
-    color: #ff9800;
-}
-
-#btn-next {
-    background-color: #ff9800;
-    color: white;
-}
-
-button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 8px rgba(0,0,0,0.15);
-}
-
-button:active {
-    transform: scale(0.98);
-}
-
-.icon-btn {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    padding: 5px;
-    border-radius: 50%;
-    box-shadow: none;
-}
-
-.icon-btn:hover {
-    background-color: #f0f0f0;
-    transform: scale(1.1);
-}
-
-.secondary-btn {
-    background-color: #9e9e9e;
-    color: white;
-    font-size: 0.9rem;
-    padding: 8px 16px;
-    margin-top: 10px;
-}
-
-/* =========================================
-   6. 列表视图: 生词本 & 单词库
-   ========================================= */
+/* === 列表视图 (生词本 & 单词库) === */
 #notebook-view, #library-view {
-    background: #fdfdfd;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-    margin-top: 20px;
-    text-align: left;
+    background: #fdfdfd; padding: 20px; border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin-top: 20px; text-align: left;
 }
+#notebook-list { list-style: none; margin: 20px 0; }
+#notebook-list li { padding: 10px; border-bottom: 1px dashed #eee; color: #555; }
 
-#notebook-list {
-    list-style: none;
-    margin: 20px 0;
-}
-
-#notebook-list li {
-    padding: 10px;
-    border-bottom: 1px dashed #eee;
-    color: #555;
-}
-
-/* 单词库标题 */
-.folder-title {
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #ffcc80;
-    color: #444;
-}
-
-/* 单词库网格布局 */
-.vocab-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 15px;
-    margin-bottom: 20px;
-}
-
-.vocab-card-small {
-    background: white;
-    padding: 15px;
-    border-radius: 8px;
-    border-left: 5px solid #ffcc80;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    transition: transform 0.2s;
-    cursor: pointer; /* 手型光标 */
-}
-
-.vocab-card-small:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-}
-
-.vocab-card-small strong {
-    display: block;
-    font-size: 1.2rem;
-    color: #d84315;
-    margin-bottom: 5px;
-}
-
-.vocab-card-small span {
-    font-size: 0.9rem;
-    color: #666;
-    display: block;
-}
-
-/* =========================================
-   7. 搜索框样式 (Search Bar)
-   ========================================= */
-.search-bar-container {
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: center;
-}
-
+/* 单词库样式 */
+.search-bar-container { margin-bottom: 20px; display: flex; justify-content: center; }
 #search-input {
-    width: 100%;
-    max-width: 400px;
-    padding: 12px 20px;
-    border: 2px solid #ddd;
-    border-radius: 50px;
-    font-size: 1rem;
-    transition: all 0.3s;
-    background-color: #f9f9f9;
-    outline: none;
+    width: 100%; max-width: 400px; padding: 12px 20px; border: 2px solid #ddd;
+    border-radius: 50px; font-size: 1rem; outline: none; transition: 0.3s;
 }
+#search-input:focus { border-color: #ffcc80; box-shadow: 0 0 8px rgba(255, 167, 38, 0.2); }
 
-#search-input:focus {
-    border-color: #ffcc80;
-    background-color: #fff;
-    box-shadow: 0 4px 10px rgba(255, 152, 0, 0.15);
+.folder-title { margin-bottom: 20px; border-bottom: 2px solid #ffcc80; color: #444; }
+.vocab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
+.vocab-card-small {
+    background: white; padding: 15px; border-radius: 8px; border-left: 5px solid #ffcc80;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); cursor: pointer; transition: 0.2s;
 }
+.vocab-card-small:hover { transform: translateY(-3px); box-shadow: 0 5px 10px rgba(0,0,0,0.1); }
+.vocab-card-small strong { display: block; font-size: 1.2rem; color: #d84315; }
+.vocab-card-small span { font-size: 0.9rem; color: #666; display: block; }
 
-/* =========================================
-   8. 打字练习视图 (Typing View)
-   ========================================= */
+/* === 打字练习视图 === */
 #typing-view {
-    background: #fff;
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.05);
-    margin-top: 20px;
-    text-align: center;
-    min-height: 400px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    cursor: text;
-    position: relative; /* 为了定位隐藏的输入框 */
+    background: #fff; padding: 40px; border-radius: 20px; margin-top: 20px;
+    min-height: 400px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.05); cursor: text;
 }
+.typing-header { display: flex; gap: 40px; margin-bottom: 40px; color: #888; }
+.stat-value { display: block; font-size: 1.5rem; color: #444; font-weight: bold; }
+.typing-text { font-size: 3rem; font-family: monospace; color: #e0e0e0; letter-spacing: 2px; font-weight: bold; }
+.char-correct { color: #4caf50; }
+.char-error { color: #f44336; }
+.char-current { border-bottom: 3px solid #ff9800; animation: blink 1s infinite; }
+@keyframes blink { 50% { border-color: transparent; } }
+.typing-subtext { margin-top: 20px; font-size: 1.2rem; color: #666; min-height: 1.5em; }
 
-.typing-header {
-    display: flex;
-    gap: 40px;
-    margin-bottom: 40px;
-    color: #888;
-    font-size: 0.9rem;
+/* === 弹窗 (Modal) === */
+#modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.5); z-index: 1000;
+    display: flex; justify-content: center; align-items: center;
 }
-
-.stat-value {
-    display: block;
-    font-size: 1.5rem;
-    color: #444;
-    font-weight: bold;
-    margin-top: 5px;
+.modal-content {
+    background: white; width: 90%; max-width: 500px; padding: 30px; border-radius: 20px;
+    position: relative; animation: popIn 0.3s;
 }
-
-.typing-area {
-    margin-bottom: 40px;
-    position: relative;
+@keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+#btn-close-modal {
+    position: absolute; top: 15px; right: 15px; background: none; border: none;
+    font-size: 2rem; color: #999; cursor: pointer;
 }
-
-.typing-text {
-    font-size: 3rem;
-    font-family: 'Courier New', Courier, monospace;
-    color: #e0e0e0; /* 未输入的颜色 */
-    letter-spacing: 2px;
-    font-weight: bold;
-    user-select: none;
-}
+.tag { background: #ffe0b2; color: #e65100; font-size: 0.8rem; padding: 2px 8px; border-radius: 4px; font-weight: bold; }
+.modal-row { margin-bottom: 15px; }
+#modal-word { font-size: 2.5rem; color: #d84315; }
