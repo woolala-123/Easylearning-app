@@ -5,11 +5,11 @@ let currentIndex = 0;
 // === 音效准备 (Sound Effects) ===
 // 使用在线音效资源，你也可以换成自己本地的 mp3
 // 机械键盘敲击声
-const sfxClick = new Audio('https://cdn.jsdelivr.net/gh/yewtu/qwerty-learner@master/public/sounds/hit.wav');
+const sfxClick = new Audio('sounds/public_sounds_click.wav');
 // 单词完成的提示音 (清脆的叮一声)
-const sfxSuccess = new Audio('https://www.soundjay.com/buttons/sounds/button-3.mp3'); 
+const sfxSuccess = new Audio('https://public_sounds_correct.wav'); 
 // 错误音效 (低沉的嘟声)
-const sfxError = new Audio('https://www.soundjay.com/buttons/sounds/button-10.mp3'); 
+const sfxError = new Audio('public_sounds_beep.wav'); 
 
 // 预加载，防止第一次打字延迟
 sfxClick.volume = 0.5; // 音量调小一点，不刺耳
@@ -324,3 +324,4 @@ function openModal(data) {
 }
 
 initApp();
+
