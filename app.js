@@ -137,16 +137,28 @@ function switchView(viewName) {
 }
 
 // E. 卡片模式逻辑
+// === 修改后的 loadWord 函数 ===
 function loadWord(index) {
     if (!vocabList.length) return;
+    
+    // 防止 index 越界
     if (index >= vocabList.length) index = 0;
+    
     const data = vocabList[index];
     
+    // 1. 更新界面文字
     if(wordEl) wordEl.textContent = data.word;
     if(phoneticEl) phoneticEl.textContent = data.phonetic;
     if(defTextEl) defTextEl.textContent = data.definition;
     if(exampleEl) exampleEl.textContent = data.example;
-    if(defEl) defEl.classList.add('hidden');
+    
+    // 2. 隐藏释义（这是背单词模式）
+    if(defEl) defEl.classList.add('hidden'); 
+
+    // 3. 【新增】自动朗读！🔊
+    // 注意：浏览器规定，第一次进入网页必须用户点一下，才能自动播放。
+    // 所以刚刷新网页时可能不响，但你点过一次“下一个”之后，就会一直响了。
+    speakWord(); 
 }
 
 // === 🔊 修复版朗读函数 (Fix Audio Stuck Issue) ===
@@ -364,4 +376,5 @@ if(modalOverlay) modalOverlay.addEventListener('click', (e) => {
 
 // 启动
 initApp();
+
 
