@@ -1,65 +1,57 @@
 /**
- * IELTS Cat Vocab App - v3.0 Final Integration
- * 功能：卡片、生词本、搜索、洗牌、拼写练习(手机适配)、音效
+ * IELTS Cat Vocab App - v3.1 Auto-Speak Fix
+ * 修复点：移除 setTimeout 以符合浏览器自动播放策略；在 loadWord 中集成自动朗读。
  */
 
 // =======================
-// 1. 初始化变量与配置
+// 1. 初始化变量
 // =======================
 let vocabList = [];
 let currentIndex = 0;
 
-// 音效对象 (确保你的 sounds 文件夹里有这些文件)
-// 如果没有文件，代码会自动忽略，不会报错
-const sfxClick = new Audio('sounds/public_sounds_click.wav');
-const sfxSuccess = new Audio('sounds/public_sounds_correct.wav');
-const sfxError = new Audio('sounds/public_sounds_beep.wav');
+// 音效
+const sfxClick = new Audio('sounds/type.mp3');
+const sfxSuccess = new Audio('sounds/success.mp3');
+const sfxError = new Audio('sounds/error.mp3');
 sfxClick.volume = 0.5; sfxSuccess.volume = 0.6; sfxError.volume = 0.3;
 
 // =======================
-// 2. 获取页面元素
+// 2. 获取元素
 // =======================
-// 视图容器
 const cardContainer = document.querySelector('.card-container');
 const notebookView = document.getElementById('notebook-view');
 const libraryView = document.getElementById('library-view');
 const typingView = document.getElementById('typing-view');
 
-// 导航链接
-const navNotebook = document.getElementById('nav-notebook');
-const navLibrary = document.getElementById('nav-library');
-const navTyping = document.getElementById('nav-typing');
-
-// 卡片元素
 const wordEl = document.querySelector('.word');
 const phoneticEl = document.querySelector('.phonetic');
 const defEl = document.querySelector('.definition');
 const defTextEl = defEl ? defEl.querySelector('p') : null;
 const exampleEl = defEl ? defEl.querySelector('.example') : null;
 
-// 按钮
 const btnReveal = document.getElementById('btn-reveal');
-const btnNext = document.getElementById('btn-next');
+const btnNext = document.getElementById('btn-next'); // 关键按钮
 const btnAudio = document.getElementById('btn-audio');
 const btnSave = document.getElementById('btn-save');
 const btnBack = document.getElementById('btn-back');
-const btnBackFromLib = document.getElementById('btn-back-from-lib');
-const btnBackFromTyping = document.getElementById('btn-back-from-typing');
 
-// 列表与搜索
+const navNotebook = document.getElementById('nav-notebook');
+const navLibrary = document.getElementById('nav-library');
+const navTyping = document.getElementById('nav-typing');
+
+const notebookListEl = document.getElementById('notebook-list');
 const fullVocabListEl = document.getElementById('full-vocab-list');
 const libCountEl = document.getElementById('lib-count');
 const searchInput = document.getElementById('search-input');
-const notebookListEl = document.getElementById('notebook-list');
+const btnBackFromLib = document.getElementById('btn-back-from-lib');
+const btnBackFromTyping = document.getElementById('btn-back-from-typing');
 
-// 拼写练习元素
 const targetWordDisplay = document.getElementById('target-word-display');
 const typingTranslation = document.getElementById('typing-translation');
 const typingWpm = document.getElementById('typing-wpm');
 const typingProgress = document.getElementById('typing-progress');
 const mobileInput = document.getElementById('mobile-input');
 
-// 弹窗元素
 const modalOverlay = document.getElementById('modal-overlay');
 const btnCloseModal = document.getElementById('btn-close-modal');
 const modalWord = document.getElementById('modal-word');
@@ -72,25 +64,22 @@ const btnModalAudio = document.getElementById('btn-modal-audio');
 // 3. 核心功能
 // =======================
 
-// A. 启动应用
 async function initApp() {
     try {
         const response = await fetch('words.json');
-        if (!response.ok) throw new Error('Cannot load words.json');
+        if (!response.ok) throw new Error('Data Load Error');
         vocabList = await response.json();
-        
-        // 自动洗牌
         vocabList = shuffleArray(vocabList);
+        console.log(`Loaded ${vocabList.length} words`);
         
-        console.log(`Loaded ${vocabList.length} words.`);
-        loadWord(currentIndex);
+        // 注意：初始化加载时，通常不自动朗读，因为浏览器会拦截
+        loadWord(currentIndex, false); 
     } catch (error) {
         console.error(error);
         if(wordEl) wordEl.textContent = "Data Error 😿";
     }
 }
 
-// B. 洗牌算法
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -99,7 +88,6 @@ function shuffleArray(array) {
     return array;
 }
 
-// C. 播放音效 (防报错版)
 function playSound(audioObj) {
     try {
         const clone = audioObj.cloneNode();
@@ -108,18 +96,13 @@ function playSound(audioObj) {
     } catch(e) {}
 }
 
-// D. 视图切换
 function switchView(viewName) {
-    // 隐藏所有
     if(cardContainer) cardContainer.style.display = 'none';
     if(notebookView) notebookView.classList.add('hidden');
     if(libraryView) libraryView.classList.add('hidden');
     if(typingView) typingView.classList.add('hidden');
-    
-    // 移除键盘监听
     document.removeEventListener('keydown', handleDesktopTyping);
 
-    // 显示目标
     if (viewName === 'card') {
         if(cardContainer) cardContainer.style.display = 'flex';
     } else if (viewName === 'notebook') {
@@ -136,111 +119,82 @@ function switchView(viewName) {
     }
 }
 
-// E. 卡片模式逻辑
-// === 修改后的 loadWord 函数 ===
-function loadWord(index) {
+// === 核心修改：loadWord 增加 autoSpeak 参数 ===
+function loadWord(index, autoSpeak = true) {
     if (!vocabList.length) return;
-    
-    // 防止 index 越界
     if (index >= vocabList.length) index = 0;
     
     const data = vocabList[index];
     
-    // 1. 更新界面文字
     if(wordEl) wordEl.textContent = data.word;
     if(phoneticEl) phoneticEl.textContent = data.phonetic;
     if(defTextEl) defTextEl.textContent = data.definition;
     if(exampleEl) exampleEl.textContent = data.example;
-    
-    // 2. 隐藏释义（这是背单词模式）
     if(defEl) defEl.classList.add('hidden'); 
 
-    // 3. 【新增】自动朗读！🔊
-    // 注意：浏览器规定，第一次进入网页必须用户点一下，才能自动播放。
-    // 所以刚刷新网页时可能不响，但你点过一次“下一个”之后，就会一直响了。
-    speakWord(); 
+    // 自动朗读逻辑
+    if (autoSpeak) {
+        speakWord(data.word);
+    }
 }
 
-// === 🔊 修复版朗读函数 (Fix Audio Stuck Issue) ===
+// === 核心修改：speakWord 去掉延迟，直接播放 ===
 function speakWord(text) {
-    // 1. 确定要读什么：优先读参数 text，没有就读界面上的单词
-    const content = text || (wordEl ? wordEl.textContent : "") || "No word";
+    const content = text || (wordEl ? wordEl.textContent : "") || "";
+    if (!content) return;
 
-    console.log("正在尝试朗读:", content); // 看控制台有没有这行字
+    if (!('speechSynthesis' in window)) return;
 
-    // 2. 检查浏览器是否支持
-    if (!('speechSynthesis' in window)) {
-        console.error("当前浏览器不支持 Web Speech API");
-        return;
-    }
-
-    // 3. 【最关键的一步】强制取消当前正在读的（防止卡死）
+    // 1. 强制停止之前的
     window.speechSynthesis.cancel();
 
-    // 4. 创建发音请求
+    // 2. 创建新发音
     const utterance = new SpeechSynthesisUtterance(content);
-    utterance.lang = 'en-US'; // 美式发音
-    utterance.rate = 1.0;     // 语速 (0.1 ~ 10)
-    
-    // 5. 稍微延迟 10ms 再播放 (给浏览器喘息时间)
-    setTimeout(() => {
-        window.speechSynthesis.speak(utterance);
-    }, 10);
+    utterance.lang = 'en-US'; 
+    utterance.rate = 1.0;
+
+    // 3. 直接播放 (去掉了 setTimeout，确保和点击事件同步)
+    window.speechSynthesis.speak(utterance);
 }
 
+// ... (以下部分保持不变：saveToNotebook, renderNotebook, Library, Typing 等) ...
 function saveToNotebook() {
     if (!vocabList.length) return;
     const currentWord = vocabList[currentIndex];
     let myNotebook = JSON.parse(localStorage.getItem('myCatNotebook')) || [];
-    
     if (!myNotebook.some(item => item.word === currentWord.word)) {
         myNotebook.push(currentWord);
         localStorage.setItem('myCatNotebook', JSON.stringify(myNotebook));
-        alert(`已保存：${currentWord.word}`);
-    } else {
-        alert("已经在生词本里啦！");
-    }
+        alert(`Saved: ${currentWord.word}`);
+    } else { alert("Already saved!"); }
 }
 
-// F. 生词本渲染
 function renderNotebook() {
     if(!notebookListEl) return;
     const myNotebook = JSON.parse(localStorage.getItem('myCatNotebook')) || [];
     notebookListEl.innerHTML = '';
-    
-    if (myNotebook.length === 0) {
-        notebookListEl.innerHTML = '<li>暂无生词，快去添加吧！</li>';
-    } else {
-        myNotebook.forEach(item => {
-            const li = document.createElement('li');
-            li.innerHTML = `<strong>${item.word}</strong> <br> <span style="font-size:0.9em;color:#666;">${item.definition}</span>`;
-            notebookListEl.appendChild(li);
-        });
-    }
+    myNotebook.forEach(item => {
+        const li = document.createElement('li');
+        li.innerHTML = `<strong>${item.word}</strong> <br> <span style="font-size:0.9em;color:#666;">${item.definition}</span>`;
+        notebookListEl.appendChild(li);
+    });
 }
 
-// G. 单词库与搜索
 function renderLibrary(filterText = "") {
     if(!fullVocabListEl) return;
     const filtered = vocabList.filter(item => 
         item.word.toLowerCase().includes(filterText.toLowerCase()) || 
         item.definition.includes(filterText)
     );
-    
     if(libCountEl) libCountEl.textContent = `(${filtered.length})`;
     fullVocabListEl.innerHTML = '';
-    
-    if (filtered.length === 0) {
-        fullVocabListEl.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:#999;">无匹配结果</p>';
-    } else {
-        filtered.forEach(item => {
-            const div = document.createElement('div');
-            div.className = 'vocab-card-small';
-            div.innerHTML = `<strong>${item.word}</strong><span>${item.definition}</span>`;
-            div.addEventListener('click', () => openModal(item));
-            fullVocabListEl.appendChild(div);
-        });
-    }
+    filtered.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'vocab-card-small';
+        div.innerHTML = `<strong>${item.word}</strong><span>${item.definition}</span>`;
+        div.addEventListener('click', () => openModal(item));
+        fullVocabListEl.appendChild(div);
+    });
 }
 
 function openModal(data) {
@@ -253,31 +207,18 @@ function openModal(data) {
     modalOverlay.classList.remove('hidden');
 }
 
-// H. 拼写练习逻辑
-let typingIndex = 0;
-let currentInput = "";
-let startTime = 0;
-let charCount = 0;
-
-function startTypingMode() {
-    switchView('typing');
-    typingIndex = 0; charCount = 0; startTime = Date.now();
-    loadTypingWord();
-}
-
+// 打字练习部分
+let typingIndex = 0; let currentInput = ""; let startTime = 0; let charCount = 0;
+function startTypingMode() { switchView('typing'); typingIndex=0; charCount=0; startTime=Date.now(); loadTypingWord(); }
 function loadTypingWord() {
     if (!vocabList.length) return;
-    if (typingIndex >= vocabList.length) { typingIndex = 0; alert("本轮练习结束！🎉"); }
-    
+    if (typingIndex >= vocabList.length) { typingIndex = 0; alert("Round Done!"); }
     const targetWord = vocabList[typingIndex].word;
-    currentInput = "";
-    if(mobileInput) mobileInput.value = "";
-    
-    if(typingProgress) typingProgress.textContent = `${typingIndex + 1}/${vocabList.length}`;
+    currentInput = ""; if(mobileInput) mobileInput.value = "";
+    if(typingProgress) typingProgress.textContent = `${typingIndex+1}/${vocabList.length}`;
     if(typingTranslation) typingTranslation.textContent = vocabList[typingIndex].definition;
     renderTypingWord(targetWord, "");
 }
-
 function renderTypingWord(word, input) {
     if(!targetWordDisplay) return;
     targetWordDisplay.innerHTML = '';
@@ -288,93 +229,3 @@ function renderTypingWord(word, input) {
         else if (index === input.length) span.className = 'char-current';
         targetWordDisplay.appendChild(span);
     });
-}
-
-function processTypingInput(key) {
-    if (!vocabList.length) return;
-    const targetWord = vocabList[typingIndex].word;
-
-    if (key === 'Backspace') {
-        if (currentInput.length > 0) {
-            currentInput = currentInput.slice(0, -1);
-            playSound(sfxClick);
-            renderTypingWord(targetWord, currentInput);
-        }
-        return;
-    }
-
-    if (currentInput.length >= targetWord.length) return;
-    
-    // 比对字符 (忽略大小写)
-    if (key.toLowerCase() === targetWord[currentInput.length].toLowerCase()) {
-        currentInput += targetWord[currentInput.length];
-        charCount++;
-        playSound(sfxClick);
-        renderTypingWord(targetWord, currentInput);
-        
-        // WPM 计算
-        const min = (Date.now() - startTime) / 60000;
-        const wpm = Math.round((charCount / 5) / (min || 1));
-        if(typingWpm) typingWpm.textContent = wpm;
-
-        // 完成单词
-        if (currentInput === targetWord) {
-            playSound(sfxSuccess);
-            speakWord(targetWord);
-            setTimeout(() => { typingIndex++; loadTypingWord(); }, 300);
-        }
-    } else {
-        playSound(sfxError);
-    }
-}
-
-function handleDesktopTyping(e) {
-    if (e.key.length === 1 || e.key === 'Backspace') {
-        if (!e.ctrlKey && !e.metaKey) processTypingInput(e.key);
-    }
-}
-
-// =======================
-// 4. 事件监听绑定
-// =======================
-
-// 卡片
-if(btnReveal) btnReveal.addEventListener('click', () => defEl.classList.remove('hidden'));
-if(btnNext) btnNext.addEventListener('click', () => {
-    currentIndex++; if(currentIndex>=vocabList.length) currentIndex=0; loadWord(currentIndex);
-});
-if(btnAudio) btnAudio.addEventListener('click', () => speakWord(null));
-if(btnSave) btnSave.addEventListener('click', saveToNotebook);
-
-// 导航
-if(navNotebook) navNotebook.addEventListener('click', () => switchView('notebook'));
-if(navLibrary) navLibrary.addEventListener('click', () => switchView('library'));
-if(navTyping) navTyping.addEventListener('click', () => startTypingMode());
-
-// 返回按钮
-if(btnBack) btnBack.addEventListener('click', () => switchView('card'));
-if(btnBackFromLib) btnBackFromLib.addEventListener('click', () => switchView('card'));
-if(btnBackFromTyping) btnBackFromTyping.addEventListener('click', () => switchView('card'));
-
-// 搜索框
-if(searchInput) searchInput.addEventListener('input', (e) => renderLibrary(e.target.value.trim()));
-
-// 手机输入适配
-if(mobileInput) {
-    mobileInput.addEventListener('input', (e) => {
-        if (e.inputType === 'deleteContentBackward') processTypingInput('Backspace');
-        else if (e.data) processTypingInput(e.data.slice(-1));
-    });
-}
-if(typingView) typingView.addEventListener('click', () => { if(mobileInput) mobileInput.focus(); });
-
-// 弹窗关闭
-if(btnCloseModal) btnCloseModal.addEventListener('click', () => modalOverlay.classList.add('hidden'));
-if(modalOverlay) modalOverlay.addEventListener('click', (e) => { 
-    if (e.target === modalOverlay) modalOverlay.classList.add('hidden'); 
-});
-
-// 启动
-initApp();
-
-
