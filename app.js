@@ -149,12 +149,31 @@ function loadWord(index) {
     if(defEl) defEl.classList.add('hidden');
 }
 
+// === 🔊 修复版朗读函数 (Fix Audio Stuck Issue) ===
 function speakWord(text) {
-    if ('speechSynthesis' in window) {
-        const utterance = new SpeechSynthesisUtterance(text || (wordEl ? wordEl.textContent : ""));
-        utterance.lang = 'en-US';
-        window.speechSynthesis.speak(utterance);
+    // 1. 确定要读什么：优先读参数 text，没有就读界面上的单词
+    const content = text || (wordEl ? wordEl.textContent : "") || "No word";
+
+    console.log("正在尝试朗读:", content); // 看控制台有没有这行字
+
+    // 2. 检查浏览器是否支持
+    if (!('speechSynthesis' in window)) {
+        console.error("当前浏览器不支持 Web Speech API");
+        return;
     }
+
+    // 3. 【最关键的一步】强制取消当前正在读的（防止卡死）
+    window.speechSynthesis.cancel();
+
+    // 4. 创建发音请求
+    const utterance = new SpeechSynthesisUtterance(content);
+    utterance.lang = 'en-US'; // 美式发音
+    utterance.rate = 1.0;     // 语速 (0.1 ~ 10)
+    
+    // 5. 稍微延迟 10ms 再播放 (给浏览器喘息时间)
+    setTimeout(() => {
+        window.speechSynthesis.speak(utterance);
+    }, 10);
 }
 
 function saveToNotebook() {
@@ -345,3 +364,4 @@ if(modalOverlay) modalOverlay.addEventListener('click', (e) => {
 
 // 启动
 initApp();
+
