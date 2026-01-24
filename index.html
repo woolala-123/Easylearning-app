@@ -12,19 +12,19 @@
         <div class="logo">🐱 IELTS Booster</div>
         <nav>
             <ul>
-                <li><a href="#" id="nav-sort">🗂️ 单词分类</a></li>
-                <li><a href="#" id="nav-typing">⌨️ 拼写</a></li>
-                <li><a href="#" id="nav-library">单词库</a></li>
-                <li><a href="#" id="nav-notebook">生词本</a></li>
+                <li><a href="#" id="nav-home">🏠 首页</a></li> <li><a href="#" id="nav-sort">🗂️ 单词分类</a></li>
+                <li><a href="#" id="nav-typing">⌨️ 拼写练习</a></li>
+                <li><a href="#" id="nav-library">📚 单词库</a></li>
+                <li><a href="#" id="nav-notebook">📕 生词本</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
-        <div class="card-container" id="card-view">
+        <div class="card-container" id="home-view">
             <section class="status-bar">
-                <h2>Hi, 这里的目标是 8000 词！</h2>
-                <p>今天也要加油喵~ 🐾</p>
+                <h2>Hi, 今天的目标是 8000 词！</h2>
+                <p>点击下方卡片开始背词，或使用上方导航切换模式 🐾</p>
             </section>
 
             <div class="flashcard">
@@ -50,58 +50,46 @@
 
         <section id="sort-menu-view" class="hidden">
             <h2>🧠 选择一种思维模式</h2>
-            <p>通过场景归纳，建立深度记忆连接</p>
             <div class="menu-grid">
                 <div class="menu-card" onclick="startSortingGame('profession')">
                     <div class="icon">👨‍⚕️</div>
                     <h3>职业场景</h3>
-                    <p>医生 / 律师 / 厨师</p>
+                    <p>医生 / 法律 / 烹饪</p>
                 </div>
                 <div class="menu-card" onclick="startSortingGame('sentiment')">
                     <div class="icon">🎭</div>
                     <h3>情感色彩</h3>
                     <p>积极 / 消极 / 中性</p>
                 </div>
-                <div class="menu-card" style="opacity:0.5; cursor:not-allowed;">
-                    <div class="icon">🏠</div>
-                    <h3>空间位置</h3>
-                    <p>(敬请期待)</p>
-                </div>
             </div>
-            <button id="btn-back-from-menu" class="secondary-btn">返回主页</button>
         </section>
 
         <section id="sorting-view" class="hidden">
-            <div class="workspace-header">
-                <h3>请将单词归位到正确的篮筐</h3>
-                <span id="sort-progress">剩余: 0</span>
+            <div class="game-top-bar">
+                <div class="timer-box">⏱️ <span id="game-timer">00:00</span></div>
+                <div class="star-box" id="star-display">⭐⭐⭐</div>
+                <button onclick="checkGameFinish()" id="btn-finish-game" class="btn-disabled" disabled>✅ 提交结算</button>
             </div>
 
-            <div id="sorting-grid" class="sorting-grid">
+            <div class="workspace-container">
+                <div class="game-main-area">
+                    <div class="workspace-header">
+                        <h3>请将单词归位</h3>
+                        <span id="sort-progress">剩余: 0</span>
+                    </div>
+                    <div id="sorting-grid" class="sorting-grid"></div>
+                    <div id="sorting-baskets" class="sorting-baskets"></div>
                 </div>
 
-            <div id="sorting-baskets" class="sorting-baskets">
-                </div>
-
-            <button onclick="switchView('sort-menu')" class="secondary-btn">结束整理</button>
-        </section>
-
-        <section id="notebook-view" class="hidden">
-            <h3>📕 我的生词本</h3>
-            <ul id="notebook-list"></ul>
-            <button id="btn-back" class="secondary-btn">返回</button>
-        </section>
-
-        <section id="library-view" class="hidden">
-            <h2>📚 单词库</h2>
-            <div class="search-bar-container">
-                <input type="text" id="search-input" placeholder="🔍 搜索..." autocomplete="off">
+                <aside class="sidebar-details">
+                    <h3>📖 单词详情</h3>
+                    <div id="sidebar-content">
+                        <p class="placeholder-text">点击左侧单词<br>查看完整释义</p>
+                    </div>
+                </aside>
             </div>
-            <div class="folder-structure">
-                <h3 class="folder-title">📂 全部词汇 <span id="lib-count"></span></h3>
-                <div id="full-vocab-list" class="vocab-grid"></div>
-            </div>
-            <button id="btn-back-from-lib" class="secondary-btn">返回</button>
+            
+            <button onclick="switchView('sort-menu')" class="secondary-btn">退出游戏</button>
         </section>
 
         <section id="typing-view" class="hidden">
@@ -114,7 +102,21 @@
                 <div id="target-word-display" class="typing-text"></div>
                 <div id="typing-translation" class="typing-subtext"></div>
             </div>
-            <button id="btn-back-from-typing" class="secondary-btn">退出</button>
+            <p class="typing-tip">红色代表拼写错误，请按退格键修改</p>
+            <button id="btn-back-from-typing" class="secondary-btn">退出练习</button>
+        </section>
+
+        <section id="notebook-view" class="hidden">
+            <h3>📕 我的生词本</h3>
+            <ul id="notebook-list"></ul>
+            <button class="secondary-btn" onclick="switchView('home')">返回</button>
+        </section>
+
+        <section id="library-view" class="hidden">
+            <h2>📚 单词库</h2>
+            <input type="text" id="search-input" placeholder="🔍 搜索...">
+            <div id="full-vocab-list" class="vocab-grid"></div>
+            <button class="secondary-btn" onclick="switchView('home')">返回</button>
         </section>
 
     </main>
@@ -127,10 +129,6 @@
             <button id="btn-modal-audio">🔊 朗读</button>
         </div>
     </div>
-
-    <footer>
-        <p>&copy; 2026 IELTS Cat Booster</p>
-    </footer>
 
     <script src="app.js"></script>
 </body>
