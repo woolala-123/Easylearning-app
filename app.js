@@ -10,9 +10,9 @@ let currentIndex = 0;
 
 // 音频文件 (确保文件名完全一致)
 const audioFiles = {
-    click: new Audio('public_sounds_click.wav'),
-    correct: new Audio('public_sounds_correct.wav'),
-    error: new Audio('public_sounds_beep.wav')
+    click: new Audio('sounds/public_sounds_click.wav'),
+    correct: new Audio('sounds/public_sounds_correct.wav'),
+    error: new Audio('sounds/public_sounds_beep.wav')
 };
 
 // 预加载并设置音量
@@ -370,3 +370,4 @@ document.getElementById('btn-reveal').onclick = () => document.querySelector('.d
 document.getElementById('typing-view').onclick = () => document.getElementById('ql-hidden-input').focus();
 
 initApp();
+
