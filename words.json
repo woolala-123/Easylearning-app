@@ -154,5 +154,355 @@
     "phonetic": "/ˈvʌl.nər.ə.bəl/",
     "definition": "adj. 脆弱的，易受伤害的",
     "example": "Old people are particularly vulnerable to the flu. (老年人特别容易感染流感。)"
+    },
+    {
+        "word": "abandon",
+        "phonetic": "/əˈbændən/",
+        "definition": "vt. 抛弃; 放弃",
+        "example": "He decided to abandon the sinking ship. (他决定放弃那艘正在下沉的船。)",
+        "category": "Uncategorized"
+    },
+    {
+        "word": "abide",
+        "phonetic": "/əˈbaɪd/",
+        "definition": "vi. (by)遵守; 坚持",
+        "example": "Competitors must abide by the judge's decision. (参赛者必须遵守裁判的决定。)",
+        "category": "Uncategorized"
+    },
+    {
+        "word": "ability",
+        "phonetic": "/əˈbɪləti/",
+        "definition": "n. 能力; 本领",
+        "example": "She has the ability to manage complex projects. (她有能力管理复杂的项目。)",
+        "category": "Uncategorized"
+    },
+    {
+        "word": "abnormal",
+        "phonetic": "/æbˈnɔːml/",
+        "definition": "a. 变态的; 反常的",
+        "example": "The test results showed abnormal levels of sugar. (测试结果显示糖分水平反常。)",
+        "category": "Health"
+    },
+    {
+        "word": "abolish",
+        "phonetic": "/əˈbɒlɪʃ/",
+        "definition": "vt. 废除",
+        "example": "Many people fought to abolish slavery. (许多人为废除奴隶制而斗争。)",
+        "category": "Society"
+    },
+    {
+        "word": "abrupt",
+        "phonetic": "/əˈbrʌpt/",
+        "definition": "a. 突然的; 粗暴的",
+        "example": "The meeting came to an abrupt end. (会议突然结束了。)",
+        "category": "Uncategorized"
+    },
+    {
+        "word": "absence",
+        "phonetic": "/ˈæbsəns/",
+        "definition": "n. 缺席; 缺乏",
+        "example": "She noticed his absence from the meeting. (她注意到了他缺席会议。)",
+        "category": "Uncategorized"
+    },
+    {
+        "word": "absolute",
+        "phonetic": "/ˈæbsəluːt/",
+        "definition": "a. 绝对的; 完全的",
+        "example": "I have absolute confidence in her. (我对她有绝对的信心。)",
+        "category": "Positive"
+    },
+    {
+        "word": "absorb",
+        "phonetic": "/əbˈzɔːb/",
+        "definition": "vt. 吸收; 吸引...的注意",
+        "example": "Plants absorb carbon dioxide from the air. (植物从空气中吸收二氧化碳。)",
+        "category": "Environment"
+    },
+    {
+        "word": "abstract",
+        "phonetic": "/ˈæbstrækt/",
+        "definition": "a. 抽象的; n. 摘要",
+        "example": "Truth and beauty are abstract concepts. (真理和美是抽象的概念。)",
+        "category": "Academic"
+    },
+    {
+        "word": "absurd",
+        "phonetic": "/əbˈsɜːd/",
+        "definition": "a. 荒谬的; 可笑的",
+        "example": "It is an absurd idea to go out in this storm. (在这种暴风雨中出门是个荒谬的想法。)",
+        "category": "Negative"
+    },
+    {
+        "word": "abundant",
+        "phonetic": "/əˈbʌndənt/",
+        "definition": "a. 大量的; (in)丰富的",
+        "example": "The country is abundant in natural resources. (这个国家自然资源丰富。)",
+        "category": "Positive"
+    },
+    {
+        "word": "abuse",
+        "phonetic": "/əˈbjuːs/",
+        "definition": "n./vt. 滥用; 虐待",
+        "example": "Drug abuse is a serious social problem. (药物滥用是一个严重的社会问题。)",
+        "category": "Society"
+    },
+    {
+        "word": "academic",
+        "phonetic": "/ˌækəˈdemɪk/",
+        "definition": "a. 学术的; 学校的",
+        "example": "He has a strong academic background. (他有很强的学术背景。)",
+        "category": "Education"
+    },
+    {
+        "word": "accelerate",
+        "phonetic": "/əkˈseləreɪt/",
+        "definition": "v. 加速; 变快",
+        "example": "The car started to accelerate to overtake the truck. (汽车开始加速以超那辆卡车。)",
+        "category": "Tech"
+    },
+    {
+        "word": "access",
+        "phonetic": "/ˈækses/",
+        "definition": "n. 通道; 入口; 接近的机会",
+        "example": "Students need easy access to library resources. (学生需要方便地获取图书馆资源。)",
+        "category": "Education"
+    },
+    {
+        "word": "accommodate",
+        "phonetic": "/əˈkɒmədeɪt/",
+        "definition": "vt. 提供住宿; 容纳",
+        "example": "The hotel can accommodate up to 500 guests. (这家酒店最多可容纳500位客人。)",
+        "category": "Travel"
+    },
+    {
+        "word": "accompany",
+        "phonetic": "/əˈkʌmpəni/",
+        "definition": "vt. 陪伴; 伴奏",
+        "example": "Children under 12 must be accompanied by an adult. (12岁以下儿童必须由成人陪同。)",
+        "category": "Society"
+    },
+    {
+        "word": "accomplish",
+        "phonetic": "/əˈkʌmplɪʃ/",
+        "definition": "vt. 完成; 实现",
+        "example": "She accomplished her goal of becoming a doctor. (她实现了成为医生的目标。)",
+        "category": "Positive"
+    },
+    {
+        "word": "accord",
+        "phonetic": "/əˈkɔːd/",
+        "definition": "vi. 相一致; n. 一致; 谅解",
+        "example": "His account of the event does not accord with the facts. (他对事件的描述与事实不符。)",
+        "category": "Academic"
+    },
+    {
+        "word": "accumulate",
+        "phonetic": "/əˈkjuːmjəleɪt/",
+        "definition": "v. 积累; 积聚",
+        "example": "Dust began to accumulate on the furniture. (灰尘开始在家具上积聚。)",
+        "category": "Environment"
+    },
+    {
+        "word": "accurate",
+        "phonetic": "/ˈækjərət/",
+        "definition": "a. 准确的; 精确的",
+        "example": "We need an accurate estimate of the costs. (我们需要对成本进行准确的估算。)",
+        "category": "Academic"
+    },
+    {
+        "word": "accuse",
+        "phonetic": "/əˈkjuːz/",
+        "definition": "vt. 控告; 指责",
+        "example": "He was accused of theft. (他被指控偷窃。)",
+        "category": "Society"
+    },
+    {
+        "word": "accustom",
+        "phonetic": "/əˈkʌstəm/",
+        "definition": "vt. 使习惯",
+        "example": "It takes time to accustom yourself to a new climate. (适应新气候需要时间。)",
+        "category": "Life"
+    },
+    {
+        "word": "achieve",
+        "phonetic": "/əˈtʃiːv/",
+        "definition": "vt. 完成; 达到",
+        "example": "They finally achieved a breakthrough in the negotiations. (他们终于在谈判中取得了突破。)",
+        "category": "Positive"
+    },
+    {
+        "word": "acknowledge",
+        "phonetic": "/əkˈnɒlɪdʒ/",
+        "definition": "vt. 承认; 致谢",
+        "example": "He refused to acknowledge his mistake. (他拒绝承认错误。)",
+        "category": "Academic"
+    },
+    {
+        "word": "acquaint",
+        "phonetic": "/əˈkweɪnt/",
+        "definition": "vt. 使熟悉; 使认识",
+        "example": "Please acquaint me with the facts of the case. (请把案情告诉我。)",
+        "category": "Uncategorized"
+    },
+    {
+        "word": "acquire",
+        "phonetic": "/əˈkwaɪə(r)/",
+        "definition": "vt. 获得; 取得",
+        "example": "She managed to acquire a good knowledge of French. (她设法掌握了很好的法语知识。)",
+        "category": "Education"
+    },
+    {
+        "word": "adapt",
+        "phonetic": "/əˈdæpt/",
+        "definition": "vt. 使适应; 改编",
+        "example": "It took him a while to adapt to the new environment. (他花了一段时间才适应新环境。)",
+        "category": "Environment"
+    },
+    {
+        "word": "adequate",
+        "phonetic": "/ˈædɪkwət/",
+        "definition": "a. 充分的; 足够的",
+        "example": "We have adequate food for the trip. (我们有足够的食物供旅途使用。)",
+        "category": "Positive"
+    },
+     {
+        "word": "adhere",
+        "phonetic": "/ədˈhɪə(r)/",
+        "definition": "vi. (to)粘附; 坚持",
+        "example": "The tiles adhere to the wall very well. (瓷砖粘在墙上很牢固。)",
+        "category": "Tech"
+    },
+    {
+        "word": "adjacent",
+        "phonetic": "/əˈdʒeɪsnt/",
+        "definition": "a. (to)邻近的; 毗连的",
+        "example": "Our farm land was adjacent to the river. (我们的农田紧靠河边。)",
+        "category": "Environment"
+    },
+    {
+        "word": "adjoin",
+        "phonetic": "/əˈdʒɔɪn/",
+        "definition": "vt. 贴近，毗连",
+        "example": "The kitchen adjoins the dining room. (厨房与餐厅相连。)",
+        "category": "Life"
+    },
+    {
+        "word": "adjust",
+        "phonetic": "/əˈdʒʌst/",
+        "definition": "vt. 调节; 校正",
+        "example": "You can adjust the height of the chair. (你可以调节椅子的高度。)",
+        "category": "Tech"
+    },
+    {
+        "word": "administer",
+        "phonetic": "/ədˈmɪnɪstə(r)/",
+        "definition": "vt. 执行; 管理; 治理",
+        "example": "The fund is administered by a board of trustees. (该基金由理事会管理。)",
+        "category": "Economy"
+    },
+    {
+        "word": "administration",
+        "phonetic": "/ədˌmɪnɪˈstreɪʃn/",
+        "definition": "n. 管理; 行政",
+        "example": "She has a job in hospital administration. (她在医院行政部门工作。)",
+        "category": "Society"
+    },
+    {
+        "word": "admire",
+        "phonetic": "/ədˈmaɪə(r)/",
+        "definition": "vt. 钦佩; 赞赏",
+        "example": "I admire her for her courage. (我钦佩她的勇气。)",
+        "category": "Positive"
+    },
+    {
+        "word": "admission",
+        "phonetic": "/ədˈmɪʃn/",
+        "definition": "n. 允许进入; 承认",
+        "example": "Admission to the museum is free. (博物馆免费入场。)",
+        "category": "Society"
+    },
+    {
+        "word": "admit",
+        "phonetic": "/ədˈmɪt/",
+        "definition": "vt. 承认; 准许...进入",
+        "example": "He admitted that he had made a mistake. (他承认自己犯了个错误。)",
+        "category": "Society"
+    },
+    {
+        "word": "adolescent",
+        "phonetic": "/ˌædəˈlesnt/",
+        "definition": "n. 青少年; a. 青春期的",
+        "example": "Adolescent problems should be taken seriously. (青少年问题应受到重视。)",
+        "category": "Health"
+    },
+    {
+        "word": "adopt",
+        "phonetic": "/əˈdɒpt/",
+        "definition": "vt. 收养; 采用; 采纳",
+        "example": "They decided to adopt a child. (他们决定收养一个孩子。)",
+        "category": "Society"
+    },
+    {
+        "word": "adore",
+        "phonetic": "/əˈdɔː(r)/",
+        "definition": "vt. 崇拜; 很喜欢",
+        "example": "She adores her grandchildren. (她非常疼爱她的孙辈。)",
+        "category": "Positive"
+    },
+    {
+        "word": "adult",
+        "phonetic": "/ˈædʌlt/",
+        "definition": "n. 成年人 a. 成年的",
+        "example": "The film is suitable for both children and adults. (这部电影老少皆宜。)",
+        "category": "Society"
+    },
+    {
+        "word": "advance",
+        "phonetic": "/ədˈvɑːns/",
+        "definition": "vi. 前进; 进展vt. 促进",
+        "example": "Technology is advancing at a rapid rate. (技术正在飞速发展。)",
+        "category": "Tech"
+    },
+    {
+        "word": "advanced",
+        "phonetic": "/ədˈvɑːnst/",
+        "definition": "a. 高级的; 先进的",
+        "example": "This is an advanced course in English. (这是一门高级英语课程。)",
+        "category": "Education"
+    },
+    {
+        "word": "advantage",
+        "phonetic": "/ədˈvɑːntɪdʒ/",
+        "definition": "n. 优点; 优势",
+        "example": "The main advantage of this system is its speed. (该系统的主要优点是速度快。)",
+        "category": "Positive"
+    },
+    {
+        "word": "advent",
+        "phonetic": "/ˈædvent/",
+        "definition": "n. 到来; 出现",
+        "example": "Life changed with the advent of the computer. (随着计算机的出现，生活发生了变化。)",
+        "category": "Tech"
+    },
+    {
+        "word": "adventure",
+        "phonetic": "/ədˈventʃə(r)/",
+        "definition": "n. 冒险; 奇遇",
+        "example": "She told us about her camping adventure. (她告诉了我们她的露营奇遇。)",
+        "category": "Life"
+    },
+    {
+        "word": "adverse",
+        "phonetic": "/ˈædvɜːs/",
+        "definition": "a. 不利的; 敌对的",
+        "example": "The drug is known to have adverse side effects. (已知该药有不良副作用。)",
+        "category": "Negative"
+    },
+    {
+        "word": "advocate",
+        "phonetic": "/ˈædvəkət/",
+        "definition": "vt. 提倡; 鼓吹 n. 提倡者",
+        "example": "He advocates a reduction in military spending. (他提倡削减军费开支。)",
+        "category": "Society"
     }
 ]
