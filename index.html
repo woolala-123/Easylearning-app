@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>喵喵雅思单词本 (IELTS Cat Vocab)</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=7.0">
 </head>
 <body>
 
@@ -12,8 +12,9 @@
         <div class="logo">🐱 IELTS Booster</div>
         <nav>
             <ul>
-                <li><a href="#" id="nav-home">🏠 首页</a></li> <li><a href="#" id="nav-sort">🗂️ 单词分类</a></li>
-                <li><a href="#" id="nav-typing">⌨️ 拼写练习</a></li>
+                <li><a href="#" id="nav-home">🏠 首页</a></li>
+                <li><a href="#" id="nav-sort">🗂️ 单词分类</a></li>
+                <li><a href="#" id="nav-typing">⌨️ 极速拼写</a></li>
                 <li><a href="#" id="nav-library">📚 单词库</a></li>
                 <li><a href="#" id="nav-notebook">📕 生词本</a></li>
             </ul>
@@ -23,28 +24,23 @@
     <main>
         <div class="card-container" id="home-view">
             <section class="status-bar">
-                <h2>Hi, 今天的目标是 8000 词！</h2>
-                <p>点击下方卡片开始背词，或使用上方导航切换模式 🐾</p>
+                <h2>Hi, 目标 8000 词！</h2>
+                <p>保持专注，每天进步一点点 🐾</p>
             </section>
-
             <div class="flashcard">
                 <div class="card-content">
                     <div class="word-row">
                         <div class="word">Loading...</div>
-                        <button id="btn-audio" class="icon-btn" title="点击朗读">🔊</button>
+                        <button id="btn-audio" class="icon-btn">🔊</button>
                     </div>
                     <div class="phonetic">...</div>
-                    <div class="definition hidden">
-                        <p>...</p>
-                        <p class="example">...</p>
-                    </div>
+                    <div class="definition hidden"><p>...</p></div>
                 </div>
             </div>
-
             <div class="controls">
-                <button id="btn-reveal">查看释义 🐱</button>
-                <button id="btn-save">加入生词本 📕</button>
-                <button id="btn-next">下一个 ➡️</button>
+                <button id="btn-reveal">查看释义</button>
+                <button id="btn-save">加入生词本</button>
+                <button id="btn-next" class="btn-primary">下一个 ➡️</button>
             </div>
         </div>
 
@@ -54,14 +50,9 @@
                 <div class="menu-card" onclick="startSortingGame('profession')">
                     <div class="icon">👨‍⚕️</div>
                     <h3>职业场景</h3>
-                    <p>医生 / 法律 / 烹饪</p>
+                    <p>医生 / 法律 / 烹饪 (演示)</p>
                 </div>
-                <div class="menu-card" onclick="startSortingGame('sentiment')">
-                    <div class="icon">🎭</div>
-                    <h3>情感色彩</h3>
-                    <p>积极 / 消极 / 中性</p>
                 </div>
-            </div>
         </section>
 
         <section id="sorting-view" class="hidden">
@@ -74,7 +65,7 @@
             <div class="workspace-container">
                 <div class="game-main-area">
                     <div class="workspace-header">
-                        <h3>请将单词归位</h3>
+                        <h3>请将单词归位 (共 <span id="total-game-words">0</span> 词)</h3>
                         <span id="sort-progress">剩余: 0</span>
                     </div>
                     <div id="sorting-grid" class="sorting-grid"></div>
@@ -82,27 +73,59 @@
                 </div>
 
                 <aside class="sidebar-details">
-                    <h3>📖 单词详情</h3>
-                    <div id="sidebar-content">
-                        <p class="placeholder-text">点击左侧单词<br>查看完整释义</p>
+                    <h3>🔍 主动查词助手</h3>
+                    <p class="sidebar-tip">遇到不认识的词？<br>请手动输入查询，加深记忆。</p>
+                    
+                    <div class="search-box-game">
+                        <input type="text" id="game-search-input" placeholder="输入单词..." autocomplete="off">
+                        <button id="btn-game-search">查询</button>
+                    </div>
+
+                    <div id="sidebar-result" class="hidden">
+                        <span class="sidebar-word" id="res-word"></span>
+                        <span class="sidebar-phonetic" id="res-phonetic"></span>
+                        <div class="sidebar-def">
+                            <p id="res-def"></p>
+                            <p id="res-example" class="example"></p>
+                        </div>
+                        <button id="btn-res-audio" class="mini-btn">🔊 朗读</button>
                     </div>
                 </aside>
             </div>
-            
             <button onclick="switchView('sort-menu')" class="secondary-btn">退出游戏</button>
         </section>
 
         <section id="typing-view" class="hidden">
-            <input type="text" id="mobile-input" style="opacity: 0; position: absolute; top: -1000px;">
-            <div class="typing-header">
-                <span class="stat-value" id="typing-wpm">0 WPM</span>
-                <span class="stat-value" id="typing-progress">0/0</span>
+            <input type="text" id="ql-hidden-input" style="opacity: 0; position: absolute; pointer-events: none;">
+            
+            <div class="ql-container">
+                <div class="ql-stats">
+                    <div class="stat-item">
+                        <span class="label">WPM</span>
+                        <span class="value" id="ql-wpm">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="label">Accuracy</span>
+                        <span class="value" id="ql-acc">100%</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="label">Progress</span>
+                        <span class="value" id="ql-progress">0/0</span>
+                    </div>
+                </div>
+
+                <div class="ql-main-display">
+                    <div id="ql-word-display" class="ql-word">
+                        <span class="char-pending">L</span><span class="char-pending">o</span><span class="char-pending">a</span><span class="char-pending">d</span>...
+                    </div>
+                    <div id="ql-translation" class="ql-trans">中文释义区域</div>
+                </div>
+
+                <div class="ql-tips">
+                    <p>⌨️ 直接键盘输入 • ❌ 错误会阻止前进 • <span style="color:#009688">正确</span> <span style="color:#f44336">错误</span></p>
+                </div>
             </div>
-            <div class="typing-area">
-                <div id="target-word-display" class="typing-text"></div>
-                <div id="typing-translation" class="typing-subtext"></div>
-            </div>
-            <p class="typing-tip">红色代表拼写错误，请按退格键修改</p>
+            
             <button id="btn-back-from-typing" class="secondary-btn">退出练习</button>
         </section>
 
