@@ -19,68 +19,43 @@ button { padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; 
 
 /* === 首页背词 === */
 .card-container { display: flex; flex-direction: column; align-items: center; gap: 20px; }
-.flashcard { background: white; width: 100%; max-width: 600px; height: 350px; border-radius: 15px; display: flex; justify-content: center; align-items: center; box-shadow: 0 8px 20px rgba(0,0,0,0.08); border-bottom: 5px solid #009688; }
+.flashcard { background: white; width: 100%; max-width: 600px; min-height: 350px; border-radius: 15px; display: flex; justify-content: center; align-items: center; box-shadow: 0 8px 20px rgba(0,0,0,0.08); border-bottom: 5px solid #009688; padding: 20px; }
+.card-content { width: 100%; }
 .word { font-size: 3rem; color: #263238; font-weight: bold; }
-.definition { margin-top: 20px; color: #546e7a; border-top: 1px dashed #ddd; padding-top: 10px; }
+.definition { margin-top: 20px; color: #546e7a; border-top: 1px dashed #ddd; padding-top: 15px; text-align: left; }
+.def-text { font-size: 1.2rem; margin-bottom: 15px; color: #333; font-weight: bold; }
+
+/* 例句样式 */
+.example-box { background: #f1f8e9; padding: 10px; border-radius: 8px; border-left: 4px solid #8bc34a; }
+.example-box .label { font-size: 0.8rem; color: #689f38; font-weight: bold; display: block; margin-bottom: 5px; }
+.example { font-style: italic; color: #555; font-size: 0.95rem; }
 
 /* === ⌨️ Qwerty Learner 风格拼写区 === */
 #typing-view { background: #fff; border-radius: 20px; padding: 50px 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
 .ql-container { max-width: 800px; margin: 0 auto; }
-
 .ql-stats { display: flex; justify-content: space-between; margin-bottom: 40px; color: #78909c; font-size: 0.9rem; }
-.stat-item { display: flex; flex-direction: column; align-items: center; }
 .stat-item .value { font-size: 1.5rem; font-weight: bold; color: #37474f; }
+.ql-word { font-size: 4rem; font-family: 'Courier New', monospace; letter-spacing: 2px; color: #cfd8dc; transition: all 0.1s; }
 
-.ql-main-display { margin: 40px 0; min-height: 150px; }
-.ql-word { 
-    font-size: 4rem; font-family: 'Courier New', monospace; letter-spacing: 2px; 
-    color: #cfd8dc; /* 默认灰色 */
-    transition: all 0.1s;
-}
-
-/* 字符状态核心样式 */
-.char-pending { color: #cfd8dc; } /* 待输入 */
-.char-correct { color: #009688; } /* 正确 (绿) */
-.char-error { color: #f44336; background: #ffebee; border-radius: 4px; } /* 错误 (红底红字) */
-.char-cursor { 
-    border-bottom: 4px solid #ff9800; 
-    animation: blink 1s infinite; 
-} 
+.char-pending { color: #cfd8dc; }
+.char-correct { color: #009688; }
+.char-error { color: #f44336; background: #ffebee; border-radius: 4px; }
+.char-cursor { border-bottom: 4px solid #ff9800; animation: blink 1s infinite; } 
 @keyframes blink { 50% { border-color: transparent; } }
 
-.ql-trans { font-size: 1.2rem; color: #546e7a; margin-top: 20px; font-weight: normal; opacity: 0; transition: opacity 0.3s; }
+.ql-trans { font-size: 1.2rem; color: #546e7a; margin-top: 20px; opacity: 0; transition: opacity 0.3s; }
 .ql-trans.visible { opacity: 1; }
 
-.ql-tips { color: #b0bec5; font-size: 0.8rem; margin-top: 50px; }
-
-/* === 🗂️ 分类工作台 (双栏 & 主动查词) === */
+/* === 🗂️ 分类工作台 === */
 #sorting-view { background: #eceff1; padding: 20px; border-radius: 15px; display: flex; flex-direction: column; height: 85vh; }
 .game-top-bar { background: white; padding: 10px 20px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
 
-.workspace-container { display: flex; gap: 15px; flex: 1; overflow: hidden; /* 防止撑开页面 */ }
+.workspace-container { display: flex; gap: 15px; flex: 1; overflow: hidden; }
 
 /* 左侧游戏区 */
 .game-main-area { flex: 3; display: flex; flex-direction: column; background: rgba(255,255,255,0.5); padding: 15px; border-radius: 10px; }
-
-.workspace-header { display: flex; justify-content: space-between; margin-bottom: 10px; font-weight: bold; color: #455a64; }
-
-/* 网格升级：支持大量单词 */
-.sorting-grid { 
-    display: grid; 
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); 
-    gap: 8px; 
-    flex: 1; 
-    overflow-y: auto; /* 允许滚动 */
-    padding: 5px;
-    align-content: start; /* 内容靠上 */
-}
-
-.sort-card { 
-    background: white; padding: 8px; border-radius: 6px; font-size: 0.85rem; 
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05); cursor: pointer; text-align: center;
-    border: 2px solid transparent; transition: 0.1s;
-    user-select: none;
-}
+.sorting-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px; flex: 1; overflow-y: auto; padding: 5px; align-content: start; }
+.sort-card { background: white; padding: 8px; border-radius: 6px; font-size: 0.85rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); cursor: pointer; text-align: center; border: 2px solid transparent; transition: 0.1s; user-select: none; }
 .sort-card:hover { transform: translateY(-2px); border-color: #b2dfdb; }
 .sort-card.selected { background: #e0f2f1; border-color: #009688; font-weight: bold; }
 .sort-card.ghost { opacity: 0.2; pointer-events: none; border: 1px dashed #999; }
@@ -93,22 +68,18 @@ button { padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; 
 .basket-icon { font-size: 2rem; }
 
 /* 右侧主动查词区 */
-.sidebar-details { 
-    flex: 1; min-width: 250px; background: white; border-radius: 10px; padding: 20px; 
-    display: flex; flex-direction: column; 
-    box-shadow: -2px 0 10px rgba(0,0,0,0.05); 
-}
-.sidebar-tip { font-size: 0.8rem; color: #78909c; margin-bottom: 15px; }
-
+.sidebar-details { flex: 1; min-width: 280px; background: white; border-radius: 10px; padding: 20px; display: flex; flex-direction: column; box-shadow: -2px 0 10px rgba(0,0,0,0.05); }
 .search-box-game { display: flex; gap: 5px; margin-bottom: 20px; }
 #game-search-input { width: 100%; padding: 8px; border: 2px solid #cfd8dc; border-radius: 5px; outline: none; }
 #game-search-input:focus { border-color: #009688; }
 #btn-game-search { padding: 8px 15px; background: #009688; color: white; border-radius: 5px; }
 
 #sidebar-result { text-align: left; animation: fadeIn 0.3s; }
+.res-header { display: flex; justify-content: space-between; align-items: center; }
 .sidebar-word { display: block; font-size: 1.5rem; font-weight: bold; color: #00796b; }
 .sidebar-phonetic { color: #999; font-style: italic; margin-bottom: 10px; display: block; }
-.sidebar-def { font-size: 0.9rem; color: #333; margin-bottom: 15px; }
+.sidebar-def { font-size: 0.9rem; color: #333; }
+.sidebar-example { margin-top: 15px; background: #f9f9f9; padding: 10px; border-radius: 5px; font-size: 0.9rem; }
 .mini-btn { padding: 5px 10px; font-size: 0.8rem; background: #eceff1; color: #455a64; }
 
 /* 分类菜单 */
