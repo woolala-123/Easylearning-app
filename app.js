@@ -1,22 +1,21 @@
 /**
- * IELTS Cat Vocab App - v6.0 Ultimate
- * 功能：首页、背词、拼写(红字)、分类游戏(侧边栏/计时/星星/抖动)、音频修复
+ * IELTS Cat Vocab App - v7.0 Qwerty & Active Search
+ * - 拼写：Qwerty Learner 风格 (逐字检查，错误阻塞)
+ * - 游戏：20+单词网格，侧边栏主动查词
  */
 
 // =======================
-// 1. 初始化变量与音频
+// 1. 数据与音频
 // =======================
 let vocabList = [];
 let currentIndex = 0;
 
-// 音频文件 (wav格式)
 const sfxClick = new Audio('public_sounds_click.wav');
 const sfxCorrect = new Audio('public_sounds_correct.wav');
 const sfxError = new Audio('public_sounds_beep.wav');
-// 预加载音量
 [sfxClick, sfxCorrect, sfxError].forEach(s => s.volume = 0.5);
 
-// 演示数据 (保证分类功能可用)
+// 扩充的演示数据 (确保 > 20 个词)
 const DEMO_DATA = {
     profession: {
         baskets: [
@@ -25,385 +24,351 @@ const DEMO_DATA = {
             { id: 'kitchen', label: '烹饪', icon: '🍳' }
         ],
         words: [
-            { word: 'Symptom', definition: '症状', category: 'medical', example: 'Flu symptoms include fever.', phonetic: '/ˈsɪmp.təm/' },
-            { word: 'Verdict', definition: '裁决', category: 'legal', example: 'The jury reached a verdict.', phonetic: '/ˈvɜː.dɪkt/' },
-            { word: 'Recipe', definition: '食谱', category: 'kitchen', example: 'A recipe for cake.', phonetic: '/ˈres.ɪ.pi/' },
-            { word: 'Surgeon', definition: '外科医生', category: 'medical', example: 'The surgeon operated.', phonetic: '/ˈsɜː.dʒən/' },
-            { word: 'Penalty', definition: '惩罚', category: 'legal', example: 'Death penalty.', phonetic: '/ˈpen.əl.ti/' },
-            { word: 'Ingredient', definition: '原料', category: 'kitchen', example: 'Mix ingredients.', phonetic: '/ɪnˈɡriː.di.ənt/' }
-        ]
-    },
-    sentiment: {
-        baskets: [
-            { id: 'positive', label: '积极', icon: '😄' },
-            { id: 'negative', label: '消极', icon: '☹️' }
-        ],
-        words: [
-            { word: 'Joyful', definition: '快乐的', category: 'positive', example: 'A joyful day.', phonetic: '/ˈdʒɔɪ.fəl/' },
-            { word: 'Tragic', definition: '悲惨的', category: 'negative', example: 'A tragic accident.', phonetic: '/ˈtrædʒ.ɪk/' }
+            // Medical (8)
+            { word: 'Symptom', definition: '症状', category: 'medical', phonetic: '/ˈsɪmp.təm/' },
+            { word: 'Surgeon', definition: '外科医生', category: 'medical', phonetic: '/ˈsɜː.dʒən/' },
+            { word: 'Diagnose', definition: '诊断', category: 'medical', phonetic: '/ˈdaɪ.əɡ.nəʊz/' },
+            { word: 'Vaccine', definition: '疫苗', category: 'medical', phonetic: '/ˈvæk.siːn/' },
+            { word: 'Epidemic', definition: '流行病', category: 'medical', phonetic: '/ˌep.ɪˈdem.ɪk/' },
+            { word: 'Therapy', definition: '疗法', category: 'medical', phonetic: '/ˈθer.ə.pi/' },
+            { word: 'Pharmacy', definition: '药房', category: 'medical', phonetic: '/ˈfɑː.mə.si/' },
+            { word: 'Chronic', definition: '慢性的', category: 'medical', phonetic: '/ˈkrɒn.ɪk/' },
+            // Legal (8)
+            { word: 'Verdict', definition: '裁决', category: 'legal', phonetic: '/ˈvɜː.dɪkt/' },
+            { word: 'Penalty', definition: '惩罚', category: 'legal', phonetic: '/ˈpen.əl.ti/' },
+            { word: 'Accuse', definition: '指控', category: 'legal', phonetic: '/əˈkjuːz/' },
+            { word: 'Attorney', definition: '律师', category: 'legal', phonetic: '/əˈtɜː.ni/' },
+            { word: 'Justice', definition: '正义', category: 'legal', phonetic: '/ˈdʒʌs.tɪs/' },
+            { word: 'Fraud', definition: '欺诈', category: 'legal', phonetic: '/frɔːd/' },
+            { word: 'Witness', definition: '证人', category: 'legal', phonetic: '/ˈwɪt.nəs/' },
+            { word: 'Sue', definition: '起诉', category: 'legal', phonetic: '/suː/' },
+            // Kitchen (8)
+            { word: 'Recipe', definition: '食谱', category: 'kitchen', phonetic: '/ˈres.ɪ.pi/' },
+            { word: 'Ingredient', definition: '原料', category: 'kitchen', phonetic: '/ɪnˈɡriː.di.ənt/' },
+            { word: 'Cuisine', definition: '烹饪', category: 'kitchen', phonetic: '/kwɪˈziːn/' },
+            { word: 'Utensil', definition: '器皿', category: 'kitchen', phonetic: '/juːˈten.sɪl/' },
+            { word: 'Roast', definition: '烤', category: 'kitchen', phonetic: '/rəʊst/' },
+            { word: 'Feast', definition: '盛宴', category: 'kitchen', phonetic: '/fiːst/' },
+            { word: 'Spice', definition: '香料', category: 'kitchen', phonetic: '/spaɪs/' },
+            { word: 'Kettle', definition: '水壶', category: 'kitchen', phonetic: '/ˈket.əl/' }
         ]
     }
 };
 
 // =======================
-// 2. 核心功能启动
+// 2. 初始化
 // =======================
 async function initApp() {
     try {
-        const response = await fetch('words.json');
-        if (response.ok) {
-            vocabList = await response.json();
+        const res = await fetch('words.json');
+        if(res.ok) {
+            vocabList = await res.json();
             vocabList = shuffleArray(vocabList);
             loadWord(currentIndex, false);
         }
-    } catch (e) { 
-        console.log("No external words.json, using default state."); 
-    }
+    } catch(e) { console.log("Using default/demo data only"); }
 }
 
-// 视图切换
-function switchView(viewName) {
-    // 隐藏所有 section
+function switchView(view) {
     document.querySelectorAll('main > div, main > section').forEach(el => el.classList.add('hidden'));
-    document.removeEventListener('keydown', handleDesktopTyping);
-    stopGameTimer(); // 切换视图时停止计时
+    document.removeEventListener('keydown', handleQlTyping);
+    stopGameTimer();
 
-    const viewMap = {
-        'home': 'home-view',
-        'sort-menu': 'sort-menu-view',
-        'sorting': 'sorting-view',
-        'typing': 'typing-view',
-        'notebook': 'notebook-view',
-        'library': 'library-view'
-    };
-
-    const targetId = viewMap[viewName];
-    if(targetId) {
-        document.getElementById(targetId).classList.remove('hidden');
-        if(targetId === 'home-view') document.getElementById('home-view').style.display = 'flex';
+    const ids = { 'home': 'home-view', 'sort-menu': 'sort-menu-view', 'sorting': 'sorting-view', 'typing': 'typing-view', 'notebook': 'notebook-view', 'library': 'library-view' };
+    const target = document.getElementById(ids[view]);
+    if(target) {
+        target.classList.remove('hidden');
+        if(view === 'home') target.style.display = 'flex';
     }
 
-    // 特定初始化
-    if(viewName === 'typing') {
-        document.addEventListener('keydown', handleDesktopTyping);
-        startTypingMode();
-    } else if (viewName === 'notebook') {
-        renderNotebook();
-    } else if (viewName === 'library') {
-        renderLibrary();
-    }
+    if(view === 'typing') {
+        initQlTyping();
+        document.addEventListener('keydown', handleQlTyping);
+        document.getElementById('ql-hidden-input').focus(); // 激活手机键盘
+    } else if (view === 'notebook') renderNotebook();
+    else if (view === 'library') renderLibrary();
 }
 
-// =======================
-// 3. 背单词逻辑
-// =======================
-function loadWord(index, autoSpeak=true) {
+function loadWord(idx, speak=true) {
     if(!vocabList.length) return;
-    if(index >= vocabList.length) index = 0;
-    const data = vocabList[index];
-    
-    document.querySelector('.word').textContent = data.word;
-    document.querySelector('.phonetic').textContent = data.phonetic || '';
-    document.querySelector('.definition p').textContent = data.definition;
-    document.querySelector('.example').textContent = data.example || '';
+    if(idx >= vocabList.length) idx = 0;
+    const d = vocabList[idx];
+    document.querySelector('.word').textContent = d.word;
+    document.querySelector('.phonetic').textContent = d.phonetic || '';
+    document.querySelector('.definition p').textContent = d.definition;
     document.querySelector('.definition').classList.add('hidden');
-    
-    if(autoSpeak) speakWord(data.word);
+    if(speak) speakWord(d.word);
 }
 
-function speakWord(text) {
-    if(!text) return;
+function speakWord(txt) {
+    if(!txt) return;
     if('speechSynthesis' in window) {
         window.speechSynthesis.cancel();
-        const u = new SpeechSynthesisUtterance(text);
+        const u = new SpeechSynthesisUtterance(txt);
         u.lang = 'en-US';
         window.speechSynthesis.speak(u);
     }
 }
 
 // =======================
-// 4. 拼写练习 (红字功能)
+// 3. ⌨️ Qwerty Learner 风格逻辑 (核心重写)
 // =======================
-let typingIndex = 0; let currentInput = "";
+let qlQueue = [];
+let qlWordIdx = 0;
+let qlCharIdx = 0;
+let qlCorrectCount = 0;
+let qlStartTime = 0;
 
-function startTypingMode() {
-    typingIndex = 0;
-    loadTypingWord();
+function initQlTyping() {
+    // 准备一组词 (20个)
+    qlQueue = vocabList.length ? [...vocabList].slice(0, 20) : [...DEMO_DATA.profession.words].slice(0, 20);
+    qlWordIdx = 0;
+    qlCharIdx = 0;
+    qlCorrectCount = 0;
+    qlStartTime = Date.now();
+    renderQlWord();
 }
 
-function loadTypingWord() {
-    if(!vocabList.length) return;
-    if(typingIndex >= vocabList.length) { typingIndex = 0; alert("练习结束！"); return; }
+function renderQlWord() {
+    if(qlWordIdx >= qlQueue.length) { alert("练习完成！"); switchView('home'); return; }
     
-    currentInput = "";
-    const target = vocabList[typingIndex];
-    document.getElementById('mobile-input').value = "";
-    document.getElementById('mobile-input').focus();
-    document.getElementById('typing-progress').textContent = `${typingIndex+1}/${vocabList.length}`;
-    document.getElementById('typing-translation').textContent = target.definition;
-    renderTypingWord(target.word, "");
-}
-
-function renderTypingWord(word, input) {
-    const display = document.getElementById('target-word-display');
-    display.innerHTML = '';
+    const wordData = qlQueue[qlWordIdx];
+    const wordStr = wordData.word;
+    const container = document.getElementById('ql-word-display');
+    const transEl = document.getElementById('ql-translation');
     
-    // 遍历正确单词的每一个字母
-    for (let i = 0; i < word.length; i++) {
+    container.innerHTML = '';
+    
+    // 渲染每一个字母
+    for(let i=0; i<wordStr.length; i++) {
         const span = document.createElement('span');
-        const correctChar = word[i];
-        const inputChar = input[i];
-
-        if (inputChar === undefined) {
-            // 还没输入到的位置
-            span.textContent = correctChar;
-            if (i === input.length) span.className = 'char-current'; // 光标
-        } else {
-            // 已经输入了
-            if (inputChar.toLowerCase() === correctChar.toLowerCase()) {
-                // 输入正确
-                span.textContent = correctChar;
-                span.className = 'char-correct';
-            } else {
-                // 输入错误 -> 显示用户输入的那个错字，并标红
-                span.textContent = inputChar; 
-                span.className = 'char-error';
-            }
-        }
-        display.appendChild(span);
-    }
-}
-
-function processTypingInput(key) {
-    if(!vocabList.length) return;
-    const targetWord = vocabList[typingIndex].word;
-
-    if (key === 'Backspace') {
-        currentInput = currentInput.slice(0, -1);
-        playSound(sfxClick);
-    } else if (currentInput.length < targetWord.length) {
-        currentInput += key;
+        span.textContent = wordStr[i];
         
-        // 实时音效反馈
-        const currentIndex = currentInput.length - 1;
-        if (key.toLowerCase() === targetWord[currentIndex].toLowerCase()) {
-            playSound(sfxClick);
+        if (i < qlCharIdx) {
+            span.className = 'char-correct'; // 已经打对的
+        } else if (i === qlCharIdx) {
+            span.className = 'char-pending char-cursor'; // 当前光标
         } else {
-            playSound(sfxError); // 输错了，播放错误音
+            span.className = 'char-pending'; // 还没打到的
         }
+        container.appendChild(span);
     }
 
-    renderTypingWord(targetWord, currentInput);
-
-    // 检查是否完成且完全正确
-    if (currentInput.length === targetWord.length) {
-        if (currentInput.toLowerCase() === targetWord.toLowerCase()) {
-            playSound(sfxCorrect);
-            setTimeout(() => {
-                typingIndex++;
-                loadTypingWord();
-            }, 500);
-        }
-    }
+    // 更新统计
+    document.getElementById('ql-progress').textContent = `${qlWordIdx+1}/${qlQueue.length}`;
+    
+    // 显示释义 (可选：打完才显示，或者一直显示，这里设定一直显示但淡化)
+    transEl.textContent = wordData.definition;
+    transEl.classList.add('visible');
 }
 
-function handleDesktopTyping(e) {
-    if(e.key.length === 1 && !e.ctrlKey && !e.metaKey) processTypingInput(e.key);
-    if(e.key === 'Backspace') processTypingInput('Backspace');
+function handleQlTyping(e) {
+    // 忽略非字符键 (Shift, Ctrl, etc.)
+    if (e.key.length > 1) return;
+    
+    const currentWord = qlQueue[qlWordIdx].word;
+    const targetChar = currentWord[qlCharIdx];
+
+    // 1. 匹配正确
+    if (e.key.toLowerCase() === targetChar.toLowerCase()) {
+        playSound(sfxClick);
+        qlCharIdx++;
+        qlCorrectCount++;
+        
+        // 计算 WPM
+        const minutes = (Date.now() - qlStartTime) / 60000;
+        const wpm = Math.round((qlCorrectCount / 5) / (minutes || 0.01));
+        document.getElementById('ql-wpm').textContent = wpm;
+
+        // 单词完成？
+        if (qlCharIdx >= currentWord.length) {
+            playSound(sfxCorrect);
+            speakWord(currentWord);
+            // 延迟一点切下一个
+            setTimeout(() => {
+                qlWordIdx++;
+                qlCharIdx = 0;
+                renderQlWord();
+            }, 200);
+        } else {
+            renderQlWord();
+        }
+    } 
+    // 2. 匹配错误 (阻塞模式)
+    else {
+        playSound(sfxError);
+        // 视觉反馈：让当前光标变红一下
+        const cursorSpan = document.querySelector('.char-cursor');
+        if(cursorSpan) {
+            cursorSpan.classList.add('char-error');
+            setTimeout(() => cursorSpan.classList.remove('char-error'), 300);
+        }
+    }
 }
 
 // =======================
-// 5. 分类游戏 (核心更新)
+// 4. 🗂️ 分类工作台 (Active Search)
 // =======================
 let gameWords = [];
 let selectedWordIdx = null;
-let gameTimerInterval = null;
+let gameTimer = null;
 let gameSeconds = 0;
-let gameTotalWords = 0;
 
-// 开始游戏
 window.startSortingGame = function(mode) {
-    const data = DEMO_DATA[mode];
+    const data = DEMO_DATA[mode] || DEMO_DATA.profession;
     gameWords = JSON.parse(JSON.stringify(data.words));
     gameWords = shuffleArray(gameWords);
-    gameTotalWords = gameWords.length;
     
-    // 初始化界面
     switchView('sorting');
-    renderSortingBaskets(data.baskets);
-    renderSortingGrid();
-    updateGameProgress();
     
-    // 重置并启动计时器
-    gameSeconds = 0;
-    document.getElementById('game-timer').textContent = "00:00";
-    document.getElementById('star-display').textContent = "⭐⭐⭐";
-    document.getElementById('btn-finish-game').className = "btn-disabled";
-    document.getElementById('btn-finish-game').disabled = true;
-    
-    startGameTimer();
-}
-
-function startGameTimer() {
-    stopGameTimer();
-    gameTimerInterval = setInterval(() => {
-        gameSeconds++;
-        const mins = Math.floor(gameSeconds / 60).toString().padStart(2, '0');
-        const secs = (gameSeconds % 60).toString().padStart(2, '0');
-        document.getElementById('game-timer').textContent = `${mins}:${secs}`;
-        
-        // 动态更新星星 (假设每10秒扣一颗星逻辑，仅为演示)
-        // 实际逻辑：0-20s 三星, 20-40s 二星, >40s 一星
-        let stars = "⭐";
-        if (gameSeconds < 20) stars = "⭐⭐⭐";
-        else if (gameSeconds < 40) stars = "⭐⭐";
-        document.getElementById('star-display').textContent = stars;
-        
-    }, 1000);
-}
-
-function stopGameTimer() {
-    if(gameTimerInterval) clearInterval(gameTimerInterval);
-}
-
-function renderSortingBaskets(baskets) {
-    const container = document.getElementById('sorting-baskets');
-    container.innerHTML = '';
-    baskets.forEach(b => {
+    // 渲染篮筐
+    const basketContainer = document.getElementById('sorting-baskets');
+    basketContainer.innerHTML = '';
+    data.baskets.forEach(b => {
         const div = document.createElement('div');
         div.className = 'basket';
         div.innerHTML = `<div class="basket-icon">${b.icon}</div><div class="basket-label">${b.label}</div>`;
         div.onclick = () => handleBasketClick(b.id, div);
-        container.appendChild(div);
+        basketContainer.appendChild(div);
     });
+
+    renderSortingGrid();
+    
+    // 初始化侧边栏和计时
+    document.getElementById('sidebar-result').classList.add('hidden');
+    document.getElementById('game-search-input').value = '';
+    document.getElementById('total-game-words').textContent = gameWords.length;
+    startGameTimer();
 }
 
 function renderSortingGrid() {
     const grid = document.getElementById('sorting-grid');
     grid.innerHTML = '';
+    let remaining = 0;
+    
     gameWords.forEach((item, index) => {
         const div = document.createElement('div');
         div.className = 'sort-card';
         div.textContent = item.word;
         
-        if(item.sorted) {
+        if (item.sorted) {
             div.classList.add('ghost');
         } else {
-            div.onclick = () => handleWordSelect(index);
+            remaining++;
+            div.onclick = () => {
+                // 选中逻辑
+                playSound(sfxClick);
+                selectedWordIdx = index;
+                renderSortingGrid();
+                // 注意：这里不再自动展示释义，需要用户去右边查
+            };
             if(selectedWordIdx === index) div.classList.add('selected');
         }
         grid.appendChild(div);
     });
-}
-
-// 侧边栏详情展示
-function renderSidebar(wordObj) {
-    const content = document.getElementById('sidebar-content');
-    content.innerHTML = `
-        <span class="sidebar-word">${wordObj.word}</span>
-        <span class="sidebar-phonetic">${wordObj.phonetic || ''}</span>
-        <p><strong>释义：</strong>${wordObj.definition}</p>
-        <p><strong>例句：</strong>${wordObj.example || '暂无例句'}</p>
-    `;
-}
-
-function handleWordSelect(index) {
-    playSound(sfxClick);
-    selectedWordIdx = index;
-    renderSortingGrid(); // 刷新高亮
-    renderSidebar(gameWords[index]); // 刷新侧边栏
-    speakWord(gameWords[index].word); // 朗读
-}
-
-function handleBasketClick(basketId, basketEl) {
-    if(selectedWordIdx === null) return alert("请先点击上方的一个单词！");
     
-    const wordObj = gameWords[selectedWordIdx];
-    
-    if(wordObj.category === basketId) {
-        // ✅ 正确
-        playSound(sfxCorrect); // 正确音效
-        wordObj.sorted = true;
-        selectedWordIdx = null;
-        renderSortingGrid();
-        updateGameProgress();
-    } else {
-        // ❌ 错误
-        playSound(sfxError); // 错误音效
-        const cardEl = document.getElementById('sorting-grid').children[selectedWordIdx];
-        cardEl.classList.add('shake'); // 原地抖动
-        setTimeout(() => cardEl.classList.remove('shake'), 500);
-    }
-}
-
-function updateGameProgress() {
-    const remaining = gameWords.filter(w => !w.sorted).length;
     document.getElementById('sort-progress').textContent = `剩余: ${remaining}`;
     
-    // 检查是否全部完成
     if(remaining === 0) {
         stopGameTimer();
         const btn = document.getElementById('btn-finish-game');
-        btn.className = "btn-active"; // 按钮变色
         btn.disabled = false;
-        btn.textContent = "🎉 完成！点击领奖";
-        playSound(sfxCorrect);
+        btn.className = 'btn-active';
     }
 }
 
+function handleBasketClick(basketId, el) {
+    if(selectedWordIdx === null) return alert("请先选中一个单词");
+    const w = gameWords[selectedWordIdx];
+    
+    if(w.category === basketId) {
+        playSound(sfxCorrect);
+        w.sorted = true;
+        selectedWordIdx = null;
+        renderSortingGrid();
+    } else {
+        playSound(sfxError);
+        const card = document.getElementById('sorting-grid').children[selectedWordIdx];
+        card.classList.add('shake');
+        setTimeout(() => card.classList.remove('shake'), 400);
+    }
+}
+
+// 主动查词逻辑
+document.getElementById('btn-game-search').onclick = () => {
+    const term = document.getElementById('game-search-input').value.trim().toLowerCase();
+    if(!term) return;
+    
+    // 在游戏词库里找
+    const found = gameWords.find(w => w.word.toLowerCase() === term);
+    
+    if(found) {
+        document.getElementById('sidebar-result').classList.remove('hidden');
+        document.getElementById('res-word').textContent = found.word;
+        document.getElementById('res-phonetic').textContent = found.phonetic;
+        document.getElementById('res-def').textContent = found.definition;
+        document.getElementById('res-example').textContent = found.example || "No example.";
+        document.getElementById('btn-res-audio').onclick = () => speakWord(found.word);
+    } else {
+        alert("词库中未找到该词，请检查拼写。");
+    }
+};
+
+function startGameTimer() {
+    stopGameTimer();
+    gameSeconds = 0;
+    document.getElementById('btn-finish-game').disabled = true;
+    document.getElementById('btn-finish-game').className = 'btn-disabled';
+    
+    gameTimer = setInterval(() => {
+        gameSeconds++;
+        const m = Math.floor(gameSeconds/60).toString().padStart(2,'0');
+        const s = (gameSeconds%60).toString().padStart(2,'0');
+        document.getElementById('game-timer').textContent = `${m}:${s}`;
+        
+        let starStr = "⭐⭐⭐";
+        if(gameSeconds > 40) starStr = "⭐⭐";
+        if(gameSeconds > 80) starStr = "⭐";
+        document.getElementById('star-display').textContent = starStr;
+    }, 1000);
+}
+
+function stopGameTimer() { if(gameTimer) clearInterval(gameTimer); }
+
 window.checkGameFinish = function() {
     const stars = document.getElementById('star-display').textContent;
-    const time = document.getElementById('game-timer').textContent;
-    alert(`恭喜完成！\n\n最终评级：${stars}\n耗时：${time}\n\n太棒了，继续加油！`);
+    alert(`恭喜！\n评级: ${stars}\n耗时: ${document.getElementById('game-timer').textContent}`);
     switchView('sort-menu');
 }
 
 // =======================
-// 6. 辅助功能
+// 5. 其他辅助
 // =======================
-function playSound(audio) {
-    try { audio.currentTime = 0; audio.play().catch(()=>{}); } catch(e){}
-}
+function playSound(audio) { try{ audio.currentTime=0; audio.play().catch(()=>{}); }catch(e){} }
 function shuffleArray(arr) { return arr.sort(() => Math.random() - 0.5); }
-
-// 生词本与库 (简化逻辑)
 function renderNotebook() {
     const list = document.getElementById('notebook-list');
-    const data = JSON.parse(localStorage.getItem('myCatNotebook')) || [];
-    list.innerHTML = data.length ? '' : '<li>空空如也</li>';
-    data.forEach(w => {
-        const li = document.createElement('li');
-        li.textContent = `${w.word} - ${w.definition}`;
-        list.appendChild(li);
-    });
+    const d = JSON.parse(localStorage.getItem('myCatNotebook'))||[];
+    list.innerHTML = d.map(i => `<li>${i.word} - ${i.definition}</li>`).join('') || '<li>空</li>';
 }
-function renderLibrary() { /* ...同上，略... */ }
+function renderLibrary() { /* 略 */ }
 
-// =======================
-// 7. 事件监听
-// =======================
+// 事件绑定
 document.getElementById('nav-home').onclick = () => switchView('home');
 document.getElementById('nav-sort').onclick = () => switchView('sort-menu');
 document.getElementById('nav-typing').onclick = () => switchView('typing');
 document.getElementById('nav-notebook').onclick = () => switchView('notebook');
 document.getElementById('nav-library').onclick = () => switchView('library');
-
 document.getElementById('btn-next').onclick = () => { currentIndex++; loadWord(currentIndex); };
 document.getElementById('btn-audio').onclick = () => speakWord(document.querySelector('.word').textContent);
 document.getElementById('btn-save').onclick = () => {
-    const w = vocabList[currentIndex];
-    let nb = JSON.parse(localStorage.getItem('myCatNotebook')) || [];
-    nb.push(w);
+    let nb = JSON.parse(localStorage.getItem('myCatNotebook'))||[];
+    nb.push(vocabList[currentIndex]);
     localStorage.setItem('myCatNotebook', JSON.stringify(nb));
-    alert("已保存");
 };
 document.getElementById('btn-reveal').onclick = () => document.querySelector('.definition').classList.remove('hidden');
 
-// 手机打字监听
-document.getElementById('mobile-input').addEventListener('input', (e) => {
-    if(e.inputType === 'deleteContentBackward') processTypingInput('Backspace');
-    else if(e.data) processTypingInput(e.data.slice(-1));
-});
-document.getElementById('typing-view').onclick = () => document.getElementById('mobile-input').focus();
+// 手机键盘支持
+document.getElementById('typing-view').onclick = () => document.getElementById('ql-hidden-input').focus();
 
 initApp();
