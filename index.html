@@ -12,7 +12,8 @@
         <div class="logo">🐱 IELTS Booster</div>
         <nav>
             <ul>
-                <li><a href="#" id="nav-typing">⌨️ 拼写练习</a></li>
+                <li><a href="#" id="nav-sort">🗂️ 单词分类</a></li>
+                <li><a href="#" id="nav-typing">⌨️ 拼写</a></li>
                 <li><a href="#" id="nav-library">单词库</a></li>
                 <li><a href="#" id="nav-notebook">生词本</a></li>
             </ul>
@@ -47,50 +48,73 @@
             </div>
         </div>
 
+        <section id="sort-menu-view" class="hidden">
+            <h2>🧠 选择一种思维模式</h2>
+            <p>通过场景归纳，建立深度记忆连接</p>
+            <div class="menu-grid">
+                <div class="menu-card" onclick="startSortingGame('profession')">
+                    <div class="icon">👨‍⚕️</div>
+                    <h3>职业场景</h3>
+                    <p>医生 / 律师 / 厨师</p>
+                </div>
+                <div class="menu-card" onclick="startSortingGame('sentiment')">
+                    <div class="icon">🎭</div>
+                    <h3>情感色彩</h3>
+                    <p>积极 / 消极 / 中性</p>
+                </div>
+                <div class="menu-card" style="opacity:0.5; cursor:not-allowed;">
+                    <div class="icon">🏠</div>
+                    <h3>空间位置</h3>
+                    <p>(敬请期待)</p>
+                </div>
+            </div>
+            <button id="btn-back-from-menu" class="secondary-btn">返回主页</button>
+        </section>
+
+        <section id="sorting-view" class="hidden">
+            <div class="workspace-header">
+                <h3>请将单词归位到正确的篮筐</h3>
+                <span id="sort-progress">剩余: 0</span>
+            </div>
+
+            <div id="sorting-grid" class="sorting-grid">
+                </div>
+
+            <div id="sorting-baskets" class="sorting-baskets">
+                </div>
+
+            <button onclick="switchView('sort-menu')" class="secondary-btn">结束整理</button>
+        </section>
+
         <section id="notebook-view" class="hidden">
-            <h3>📕 我的生词本 (My Notebook)</h3>
+            <h3>📕 我的生词本</h3>
             <ul id="notebook-list"></ul>
-            <button id="btn-back" class="secondary-btn">返回学习模式</button>
+            <button id="btn-back" class="secondary-btn">返回</button>
         </section>
 
         <section id="library-view" class="hidden">
-            <h2>📚 单词库总览 (Library)</h2>
-            
+            <h2>📚 单词库</h2>
             <div class="search-bar-container">
-                <input type="text" id="search-input" placeholder="🔍 搜索单词 / Search..." autocomplete="off">
+                <input type="text" id="search-input" placeholder="🔍 搜索..." autocomplete="off">
             </div>
-
             <div class="folder-structure">
-                <h3 class="folder-title">📂 IELTS 核心词汇 <span id="lib-count" style="font-size:0.8em; color:#888;"></span></h3>
+                <h3 class="folder-title">📂 全部词汇 <span id="lib-count"></span></h3>
                 <div id="full-vocab-list" class="vocab-grid"></div>
             </div>
-            <button id="btn-back-from-lib" class="secondary-btn">返回学习模式</button>
+            <button id="btn-back-from-lib" class="secondary-btn">返回</button>
         </section>
 
         <section id="typing-view" class="hidden">
             <input type="text" id="mobile-input" style="opacity: 0; position: absolute; top: -1000px;">
-
             <div class="typing-header">
-                <div class="stat-box">
-                    <span class="stat-label">速度 (WPM)</span>
-                    <span class="stat-value" id="typing-wpm">0</span>
-                </div>
-                <div class="stat-box">
-                    <span class="stat-label">进度</span>
-                    <span class="stat-value" id="typing-progress">0/0</span>
-                </div>
+                <span class="stat-value" id="typing-wpm">0 WPM</span>
+                <span class="stat-value" id="typing-progress">0/0</span>
             </div>
-
             <div class="typing-area">
                 <div id="target-word-display" class="typing-text"></div>
                 <div id="typing-translation" class="typing-subtext"></div>
             </div>
-
-            <div class="typing-tips">
-                <p>点击屏幕任意处开始打字 • 错误字符无法输入</p>
-            </div>
-            
-            <button id="btn-back-from-typing" class="secondary-btn">退出练习</button>
+            <button id="btn-back-from-typing" class="secondary-btn">退出</button>
         </section>
 
     </main>
@@ -98,28 +122,14 @@
     <div id="modal-overlay" class="hidden">
         <div class="modal-content">
             <button id="btn-close-modal">×</button>
-            <div class="modal-header">
-                <h2 id="modal-word">Word</h2>
-                <span id="modal-phonetic">/phonetic/</span>
-            </div>
-            <div class="modal-body">
-                <div class="modal-row">
-                    <span class="tag">定义</span>
-                    <p id="modal-def">...</p>
-                </div>
-                <div class="modal-row">
-                    <span class="tag">例句</span>
-                    <p id="modal-example">...</p>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button id="btn-modal-audio" class="icon-btn" style="border: 1px solid #eee; border-radius: 20px; padding: 5px 15px;">🔊 点击朗读</button>
-            </div>
+            <h2 id="modal-word">Word</h2>
+            <p id="modal-def">...</p>
+            <button id="btn-modal-audio">🔊 朗读</button>
         </div>
     </div>
 
     <footer>
-        <p>&copy; 2026 Designed by Senior Content Marketer</p>
+        <p>&copy; 2026 IELTS Cat Booster</p>
     </footer>
 
     <script src="app.js"></script>
