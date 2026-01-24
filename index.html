@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>喵喵雅思单词本 (IELTS Cat Vocab)</title>
-    <link rel="stylesheet" href="style.css?v=7.0">
+    <link rel="stylesheet" href="style.css?v=8.0">
 </head>
 <body>
 
@@ -27,6 +27,7 @@
                 <h2>Hi, 目标 8000 词！</h2>
                 <p>保持专注，每天进步一点点 🐾</p>
             </section>
+            
             <div class="flashcard">
                 <div class="card-content">
                     <div class="word-row">
@@ -34,9 +35,17 @@
                         <button id="btn-audio" class="icon-btn">🔊</button>
                     </div>
                     <div class="phonetic">...</div>
-                    <div class="definition hidden"><p>...</p></div>
+                    
+                    <div class="definition hidden">
+                        <p class="def-text">...</p>
+                        <div class="example-box">
+                            <span class="label">Example:</span>
+                            <p class="example">...</p>
+                        </div>
+                    </div>
                 </div>
             </div>
+
             <div class="controls">
                 <button id="btn-reveal">查看释义</button>
                 <button id="btn-save">加入生词本</button>
@@ -50,9 +59,14 @@
                 <div class="menu-card" onclick="startSortingGame('profession')">
                     <div class="icon">👨‍⚕️</div>
                     <h3>职业场景</h3>
-                    <p>医生 / 法律 / 烹饪 (演示)</p>
+                    <p>医生 / 法律 / 烹饪</p>
                 </div>
+                <div class="menu-card" onclick="startSortingGame('sentiment')">
+                    <div class="icon">🎭</div>
+                    <h3>情感色彩</h3>
+                    <p>积极 / 消极 / 中性</p>
                 </div>
+            </div>
         </section>
 
         <section id="sorting-view" class="hidden">
@@ -74,7 +88,7 @@
 
                 <aside class="sidebar-details">
                     <h3>🔍 主动查词助手</h3>
-                    <p class="sidebar-tip">遇到不认识的词？<br>请手动输入查询，加深记忆。</p>
+                    <p class="sidebar-tip">遇到不认识的词？手动输入查询以加深记忆。</p>
                     
                     <div class="search-box-game">
                         <input type="text" id="game-search-input" placeholder="输入单词..." autocomplete="off">
@@ -82,13 +96,19 @@
                     </div>
 
                     <div id="sidebar-result" class="hidden">
-                        <span class="sidebar-word" id="res-word"></span>
-                        <span class="sidebar-phonetic" id="res-phonetic"></span>
-                        <div class="sidebar-def">
-                            <p id="res-def"></p>
-                            <p id="res-example" class="example"></p>
+                        <div class="res-header">
+                            <span class="sidebar-word" id="res-word"></span>
+                            <button id="btn-res-audio" class="mini-btn">🔊</button>
                         </div>
-                        <button id="btn-res-audio" class="mini-btn">🔊 朗读</button>
+                        <span class="sidebar-phonetic" id="res-phonetic"></span>
+                        
+                        <div class="sidebar-def">
+                            <p><strong>释义：</strong><span id="res-def"></span></p>
+                            <div class="sidebar-example">
+                                <p><strong>例句：</strong></p>
+                                <p id="res-example" style="color:#555; font-style: italic;"></p>
+                            </div>
+                        </div>
                     </div>
                 </aside>
             </div>
@@ -105,24 +125,18 @@
                         <span class="value" id="ql-wpm">0</span>
                     </div>
                     <div class="stat-item">
-                        <span class="label">Accuracy</span>
-                        <span class="value" id="ql-acc">100%</span>
-                    </div>
-                    <div class="stat-item">
                         <span class="label">Progress</span>
                         <span class="value" id="ql-progress">0/0</span>
                     </div>
                 </div>
 
                 <div class="ql-main-display">
-                    <div id="ql-word-display" class="ql-word">
-                        <span class="char-pending">L</span><span class="char-pending">o</span><span class="char-pending">a</span><span class="char-pending">d</span>...
-                    </div>
-                    <div id="ql-translation" class="ql-trans">中文释义区域</div>
+                    <div id="ql-word-display" class="ql-word">Loading...</div>
+                    <div id="ql-translation" class="ql-trans">...</div>
                 </div>
 
                 <div class="ql-tips">
-                    <p>⌨️ 直接键盘输入 • ❌ 错误会阻止前进 • <span style="color:#009688">正确</span> <span style="color:#f44336">错误</span></p>
+                    <p>⌨️ 键盘输入 • ❌ 错误红字 • 🔊 音效反馈</p>
                 </div>
             </div>
             
@@ -149,6 +163,7 @@
             <button id="btn-close-modal">×</button>
             <h2 id="modal-word">Word</h2>
             <p id="modal-def">...</p>
+            <p id="modal-example" class="example" style="margin-top:10px; color:#666;">...</p>
             <button id="btn-modal-audio">🔊 朗读</button>
         </div>
     </div>
